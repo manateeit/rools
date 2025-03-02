@@ -202,7 +202,19 @@ If you want to force an update of all configuration files, you can delete the ex
 
 ## Continuous Integration and Deployment
 
-This repository includes a GitHub Actions workflow for automated building, testing, and publishing of both packages. The workflow is defined in the root of the repository at `.github/workflows/build-packages.yml` and provides:
+This repository includes GitHub Actions workflows for automated building, testing, and publishing of both packages:
+
+### Workflow Files
+
+- **Main Workflow** (`.github/workflows/build-packages.yml`): 
+  - Runs on main branch, pull requests, and releases
+  - Full testing on multiple platforms and runtime versions
+  - Handles publishing on release
+
+- **Development Workflow** (`.github/workflows/dev-builds.yml`):
+  - Runs on all branches except main
+  - Lightweight testing for faster feedback
+  - Creates artifacts but doesn't publish
 
 ### Features
 
@@ -213,31 +225,35 @@ This repository includes a GitHub Actions workflow for automated building, testi
 
 ### Setup
 
-To use the GitHub Actions workflow:
+To use the GitHub Actions workflows:
 
-1. Ensure your repository has the `.github/workflows/build-packages.yml` file at the root of the repository
+1. Ensure your repository has both workflow files at the root of the repository:
+   - `.github/workflows/build-packages.yml`
+   - `.github/workflows/dev-builds.yml`
+
 2. Set up the required secrets in your GitHub repository:
    - `NPM_TOKEN`: Your NPM authentication token
    - `NUGET_API_KEY`: Your NuGet API key
 
 ### Usage
 
-The workflow runs automatically on:
-- Push to any branch (development builds)
-- Pull requests to the main branch
-- Creation of a new release
+The workflows run automatically on:
+- Push to any branch except main (development builds via dev-builds.yml)
+- Push to main branch (via build-packages.yml)
+- Pull requests to the main branch (via build-packages.yml)
+- Creation of a new release (via build-packages.yml)
 
 For automated publishing:
 
 1. Create a new release in GitHub with the appropriate version tag (e.g., `v1.0.0`)
-2. The workflow will automatically:
+2. The main workflow will automatically:
    - Build and test both packages on multiple platforms
    - Publish the packages to NPM and NuGet
    - Update version references in documentation
 
 ### Customization
 
-You can customize the workflow by editing the `.github/workflows/build-packages.yml` file:
+You can customize the workflows by editing the workflow files:
 - Add or remove operating systems or runtime versions in the matrix strategy
 - Modify the build, test, or publish steps
 - Add additional jobs or steps as needed
@@ -248,6 +264,7 @@ You can customize the workflow by editing the `.github/workflows/build-packages.
 2. **Document changes**: Maintain a changelog to help users understand what has changed between versions.
 3. **Test before publishing**: Test the packages locally before publishing to ensure the extraction process works correctly.
 4. **Provide migration guides**: For major version updates, provide migration guides to help users transition smoothly.
-5. **Use CI/CD**: Leverage the GitHub Actions workflow for consistent builds and automated publishing.
+5. **Use CI/CD**: Leverage the GitHub Actions workflows for consistent builds and automated publishing.
 6. **Version consistently**: Use the same version number for both packages to maintain consistency.
 7. **Monitor issues**: Regularly check for issues reported by users and address them promptly.
+8. **Use feature branches**: Develop new features in separate branches to take advantage of the development workflow.

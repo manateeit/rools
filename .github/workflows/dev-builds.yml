@@ -1,0 +1,78 @@
+name: Development Builds
+
+on:
+  # Run on all branches except main
+  push:
+    branches-ignore:
+      - 'main'
+
+jobs:
+  build-npm-package:
+    name: Build NPM Package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]  # Use only Ubuntu for dev builds to save resources
+        node-version: [20.x] # Use only the latest Node.js version for dev builds
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: Install dependencies
+      working-directory: package-tools/npm-package
+      run: npm ci || npm install
+    
+    - name: Run tests
+      working-directory: package-tools/npm-package
+      run: npm test
+    
+    - name: Create test package
+      working-directory: package-tools/npm-package
+      run: npm pack
+    
+    - name: Upload NPM package artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: npm-package-dev-build
+        path: package-tools/npm-package/*.tgz
+
+  build-nuget-package:
+    name: Build NuGet Package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]  # Use only Ubuntu for dev builds to save resources
+        dotnet-version: ['8.0.x'] # Use only the latest .NET version for dev builds
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    
+    - name: Build NuGet package
+      working-directory: package-tools/nuget-package
+      run: dotnet build
+    
+    - name: Pack NuGet package
+      working-directory: package-tools/nuget-package
+      run: dotnet pack -c Release
+    
+    - name: Run tests
+      working-directory: package-tools/nuget-package/test
+      run: |
+        chmod +x ./test-install.sh
+        ./test-install.sh
+    
+    - name: Upload NuGet package artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: nuget-package-dev-build
+        path: package-tools/nuget-package/bin/Release/*.nupkg

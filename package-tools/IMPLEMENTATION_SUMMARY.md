@@ -12,7 +12,8 @@ We've created a complete implementation for distributing Cline configuration fil
 repository-root/
 ├── .github/                   # GitHub configuration
 │   └── workflows/             # GitHub Actions workflows
-│       └── build-packages.yml # CI/CD workflow for building packages
+│       ├── build-packages.yml # Main CI/CD workflow
+│       └── dev-builds.yml     # Development builds workflow
 ├── package-tools/
     ├── README.md                  # Main README with overview of both packages
     ├── DEVELOPER_GUIDE.md         # Detailed guide for developers
@@ -118,17 +119,32 @@ dotnet nuget push bin/Release/ClinerRules.1.0.0.nupkg -k YOUR_API_KEY -s https:/
 
 ### Automated Publishing with GitHub Actions
 
-The repository includes a GitHub Actions workflow that automates the building, testing, and publishing of both packages. The workflow is defined in the root of the repository at `.github/workflows/build-packages.yml` and provides the following features:
+The repository includes GitHub Actions workflows that automate the building, testing, and publishing of both packages:
+
+#### Workflow Files
+
+- **Main Workflow** (`.github/workflows/build-packages.yml`): 
+  - Runs on main branch, pull requests, and releases
+  - Full testing on multiple platforms and runtime versions
+  - Handles publishing on release
+
+- **Development Workflow** (`.github/workflows/dev-builds.yml`):
+  - Runs on all branches except main
+  - Lightweight testing for faster feedback
+  - Creates artifacts but doesn't publish
+
+These workflows provide the following features:
 
 - **Continuous Integration**: Builds and tests both packages on multiple operating systems and runtime versions
 - **Artifact Generation**: Creates package artifacts for each build configuration
 - **Automated Publishing**: Publishes packages to NPM and NuGet when a GitHub release is created
 - **Documentation Updates**: Automatically updates version references in documentation files
 
-The workflow runs automatically on:
-- Push to any branch (development builds)
-- Pull requests to the main branch
-- Creation of a new release
+The workflows run automatically on:
+- Push to any branch except main (development builds via dev-builds.yml)
+- Push to main branch (via build-packages.yml)
+- Pull requests to the main branch (via build-packages.yml)
+- Creation of a new release (via build-packages.yml)
 
 To use the GitHub Actions workflow for publishing:
 
@@ -142,4 +158,4 @@ To use the GitHub Actions workflow for publishing:
 
 ## Conclusion
 
-This implementation provides a robust solution for distributing Cline configuration files to projects in both JavaScript/Node.js and .NET ecosystems. The packages are designed to be easy to use, maintain, and update, with a focus on preserving local modifications and providing clear documentation. The included GitHub Actions workflow further streamlines the development and release process, ensuring consistent builds and automated publishing.
+This implementation provides a robust solution for distributing Cline configuration files to projects in both JavaScript/Node.js and .NET ecosystems. The packages are designed to be easy to use, maintain, and update, with a focus on preserving local modifications and providing clear documentation. The included GitHub Actions workflows further streamline the development and release process, ensuring consistent builds and automated publishing for both production and development environments.

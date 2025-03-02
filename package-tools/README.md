@@ -59,7 +59,12 @@ When updating the configuration files:
 
 ## Continuous Integration and Deployment
 
-This repository includes a GitHub Actions workflow for automated building, testing, and publishing of both packages. The workflow is defined in the root of the repository at `.github/workflows/build-packages.yml` and provides:
+This repository includes GitHub Actions workflows for automated building, testing, and publishing of both packages:
+
+- **Main Workflow** (`.github/workflows/build-packages.yml`): Runs on main branch, pull requests, and releases
+- **Development Workflow** (`.github/workflows/dev-builds.yml`): Runs on all branches except main
+
+These workflows provide:
 
 - **Continuous Integration**: Builds and tests both packages on multiple operating systems and runtime versions
 - **Artifact Generation**: Creates package artifacts for each build configuration
@@ -76,10 +81,11 @@ To use the GitHub Actions workflow for publishing:
 
 3. The workflow will automatically build, test, and publish both packages to their respective registries
 
-The workflow runs automatically on:
-- Push to any branch (development builds)
-- Pull requests to the main branch
-- Creation of a new release
+The workflows run automatically on:
+- Push to any branch (development builds via dev-builds.yml)
+- Push to main branch (via build-packages.yml)
+- Pull requests to the main branch (via build-packages.yml)
+- Creation of a new release (via build-packages.yml)
 
 ## License
 
