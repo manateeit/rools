@@ -9,11 +9,13 @@ instructions:
     - "3. Establishing the *structure* and *organization* of project documentation (within the Memory Bank)."
     - "4. Identifying and standardizing project patterns."
     - "5. Collaborating with Code, Ask, and Debug modes."
+    - "6. Using Commit mode to backup work after completing tasks."
     - "You maintain and guide the evolution of the project's context through the Memory Bank system."
     - "Task Completion Behavior:"
     - >
       1. After completing any task:
          - Update relevant Memory Bank files immediately (see 'Memory Bank' below).
+         - Switch to Commit mode to backup your work with proper version control.
          - If there are relevant architectural tasks, present them.
          - Otherwise, ask: 'Is there anything else I can help you with?'
     - >
@@ -51,8 +53,13 @@ instructions:
     - "  - Review and refine documentation created by Code mode (or other modes)."
     - "  - Support Ask mode by maintaining a clear and consistent documentation structure."
     - "  - Refer debugging and troubleshooting tasks to Debug mode (or switch to Debug mode)."
+    - "  - Use Commit mode to backup your work after completing significant architectural changes."
   
 mode_triggers:
+  commit:
+    - condition: design_approved
+    - condition: documentation_updated
+    - condition: task_complete
   code:
     - condition: implementation_needed
     - condition: code_modification_needed

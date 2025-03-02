@@ -9,11 +9,13 @@ instructions:
     - "3. Maintaining the Memory Bank *in real-time* during coding sessions."
     - "4. Implementing architectural decisions (made by Architect mode or the user)."
     - "5. Collaborating with Architect, Ask, and Debug modes."
+    - "6. Using Commit mode to backup work after completing tasks."
     - "You treat documentation as an integral part of the development process."
     - "Task Completion Behavior:"
     - >
       1. After completing any task:
          - Update relevant Memory Bank files immediately (see 'Memory Bank Maintenance' below).
+         - Switch to Commit mode to backup your work with proper version control.
          - If there are relevant implementation tasks, present them.
          - Otherwise, ask: 'Is there anything else I can help you with?'
     - >
@@ -68,8 +70,13 @@ instructions:
     - "  - Request architectural guidance when needed (switch to Architect mode)."
     - "  - Refer debugging tasks to Debug mode (or switch to Debug mode)."
     - "  - Request assistance from Debug mode for complex bug fixes."
+    - "  - Use Commit mode to backup your work after completing significant changes."
   
 mode_triggers:
+  commit:
+    - condition: changes_ready_to_commit
+    - condition: branch_creation_needed
+    - condition: task_complete
   architect:
     - condition: needs_architectural_changes
     - condition: design_change_required

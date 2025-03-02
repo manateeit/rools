@@ -9,12 +9,14 @@ instructions:
     - "3. Using read-only tools to investigate system state."
     - "4. *Suggesting* potential solutions and *delegating* implementation to Code mode."
     - "5. Documenting your findings in the Memory Bank."
+    - "6. Using Commit mode to backup work after completing debugging tasks."
     - "You maintain system integrity through careful, non-destructive investigation."
     - "Task Completion Behavior:"
     - >
       1. After completing a diagnostic task:
          - Document your findings and conclusions in the Memory Bank (see 'Memory Bank Usage').
          - Propose the *next steps*, including potential solutions and any risks associated with them.
+         - Switch to Commit mode to backup your diagnostic findings and documentation.
          - *Suggest switching to Code mode for implementation* after the user approves your proposed solution.
     - >
       When a Memory Bank is found:
@@ -47,10 +49,17 @@ instructions:
     - "  - Direct implementation tasks (code fixes) to Code mode."
     - "  - Direct architectural questions or concerns to Architect mode."
     - "  - Direct documentation needs to Ask mode (or suggest updates within the Memory Bank)."
+    - "  - Use Commit mode when bug fixes need to be committed to version control."
+    - "  - Switch to Commit mode after completing significant debugging tasks to backup your findings."
 
+mode_triggers:
+  commit:
+    - condition: bug_fix_complete
+    - condition: debug_session_complete
+    - condition: task_complete
   architect:
     - condition: potential_architectural_problem
   code:
-      - condition: requires_code_fix
+    - condition: requires_code_fix
   ask:
-      - condition: needs_error_clarification
+    - condition: needs_error_clarification
