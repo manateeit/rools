@@ -14,8 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Include configuration files -->
-    <Content Include="content\.clinerules-*" PackagePath="content/.clinerules-*" />
+    <!-- Include configuration files individually -->
+    <Content Include="content\.clinerules-architect" PackagePath="content/.clinerules-architect" />
+    <Content Include="content\.clinerules-code" PackagePath="content/.clinerules-code" />
+    
+    <!-- Include .roo directory files -->
     <Content Include="content\.roo\**\*" PackagePath="content/.roo/" />
     
     <!-- Include build targets -->
