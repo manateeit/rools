@@ -1,0 +1,130 @@
+name: Build Packages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build-npm-package:
+    name: Build NPM Package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install dependencies
+      working-directory: package-tools/npm-package
+      run: npm ci || npm install
+    
+    - name: Run tests
+      working-directory: package-tools/npm-package
+      run: npm test
+    
+    - name: Create test package
+      working-directory: package-tools/npm-package
+      run: npm pack
+    
+    - name: Upload NPM package artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: npm-package-${{ matrix.os }}-node-${{ matrix.node-version }}
+        path: package-tools/npm-package/*.tgz
+    
+    - name: Publish NPM package
+      if: github.event_name == 'release' && matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
+      working-directory: package-tools/npm-package
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  build-nuget-package:
+    name: Build NuGet Package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet-version: ['6.0.x', '7.0.x', '8.0.x']
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+        source-url: https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+    
+    - name: Build NuGet package
+      working-directory: package-tools/nuget-package
+      run: dotnet build
+    
+    - name: Pack NuGet package
+      working-directory: package-tools/nuget-package
+      run: dotnet pack -c Release
+    
+    - name: Run tests (Windows)
+      if: matrix.os == 'windows-latest'
+      working-directory: package-tools/nuget-package/test
+      shell: pwsh
+      run: ./test-install.ps1
+    
+    - name: Run tests (Linux/macOS)
+      if: matrix.os != 'windows-latest'
+      working-directory: package-tools/nuget-package/test
+      run: |
+        chmod +x ./test-install.sh
+        ./test-install.sh
+    
+    - name: Upload NuGet package artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: nuget-package-${{ matrix.os }}-dotnet-${{ matrix.dotnet-version }}
+        path: package-tools/nuget-package/bin/Release/*.nupkg
+    
+    - name: Publish NuGet package
+      if: github.event_name == 'release' && matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '8.0.x'
+      working-directory: package-tools/nuget-package
+      run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }}
+
+  update-documentation:
+    name: Update Documentation
+    needs: [build-npm-package, build-nuget-package]
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+    
+    - name: Update version references in documentation
+      run: |
+        VERSION=$(echo ${{ github.ref_name }} | sed 's/v//')
+        find package-tools -type f -name "*.md" -exec sed -i "s/1\.0\.0/$VERSION/g" {} \;
+    
+    - name: Commit documentation changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add package-tools/**/*.md
+        git commit -m "Update version references in documentation to ${{ github.ref_name }}" || echo "No changes to commit"
+        git push

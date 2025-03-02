@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ExtractClinerRulesFiles" BeforeTargets="Build">
+    <Message Text="Extracting Cline Rules configuration files..." Importance="high" />
+    
+    <!-- Define source and destination paths -->
+    <PropertyGroup>
+      <ClinerRulesContentDir>$(MSBuildThisFileDirectory)\..\content</ClinerRulesContentDir>
+      <ClinerRulesDestinationDir>$(MSBuildProjectDirectory)</ClinerRulesDestinationDir>
+    </PropertyGroup>
+    
+    <!-- Find all .clinerules-* files -->
+    <ItemGroup>
+      <ClinerRulesFiles Include="$(ClinerRulesContentDir)\.clinerules-*" />
+    </ItemGroup>
+    
+    <!-- Copy .clinerules-* files to project root -->
+    <Copy
+      SourceFiles="@(ClinerRulesFiles)"
+      DestinationFolder="$(ClinerRulesDestinationDir)"
+      SkipUnchangedFiles="true"
+      Condition="Exists('$(ClinerRulesContentDir)')">
+      <Output TaskParameter="CopiedFiles" ItemName="ClinerRulesCopiedFiles" />
+    </Copy>
+    
+    <!-- Find all .roo directory files -->
+    <ItemGroup>
+      <ClinerRooFiles Include="$(ClinerRulesContentDir)\.roo\**\*" />
+    </ItemGroup>
+    
+    <!-- Copy .roo directory files to project root -->
+    <Copy
+      SourceFiles="@(ClinerRooFiles)"
+      DestinationFiles="@(ClinerRooFiles->'$(ClinerRulesDestinationDir)\.roo\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="true"
+      Condition="Exists('$(ClinerRulesContentDir)\.roo')">
+      <Output TaskParameter="CopiedFiles" ItemName="ClinerRooCopiedFiles" />
+    </Copy>
+    
+    <!-- Log copied files -->
+    <Message Text="Copied Cline Rules files: @(ClinerRulesCopiedFiles->'%(Filename)%(Extension)', ', ')" 
+             Condition="'@(ClinerRulesCopiedFiles)' != ''" Importance="normal" />
+    <Message Text="Copied Cline Roo files: @(ClinerRooCopiedFiles->'%(Filename)%(Extension)', ', ')" 
+             Condition="'@(ClinerRooCopiedFiles)' != ''" Importance="normal" />
+    <Message Text="No Cline Rules files were copied (files already exist or source not found)." 
+             Condition="'@(ClinerRulesCopiedFiles)@(ClinerRooCopiedFiles)' == ''" Importance="normal" />
+  </Target>
+</Project>

@@ -1,0 +1,27 @@
+{
+  "name": "cline-rules",
+  "version": "1.0.0",
+  "description": "Configuration files for Cline that are extracted to consuming projects during installation",
+  "main": "index.js",
+  "bin": {
+    "cline-rules-extract": "./bin/cline-rules-extract.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/extract-config.js",
+    "test": "node test/test-extract.js"
+  },
+  "keywords": [
+    "cline",
+    "configuration",
+    "rules"
+  ],
+  "author": "",
+  "license": "MIT",
+  "files": [
+    ".clinerules-*",
+    ".roo/**/*",
+    "scripts/extract-config.js",
+    "bin/cline-rules-extract.js",
+    "README.md"
+  ]
+}
