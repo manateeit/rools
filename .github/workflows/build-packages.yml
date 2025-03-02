@@ -11,10 +11,81 @@ on:
   release:
     types: 
       - 'created'
+  # Add a schedule for nightly builds
+  schedule:
+    - cron: '0 0 * * *'  # Run at midnight UTC every day
 
 jobs:
+  # Set version variables
+  set-version:
+    name: Set Version Variables
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+      version_tag: ${{ steps.set-version.outputs.version_tag }}
+      npm_tag: ${{ steps.set-version.outputs.npm_tag }}
+      is_publish: ${{ steps.set-version.outputs.is_publish }}
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for proper versioning
+    
+    - name: Set version variables
+      id: set-version
+      run: |
+        # Default version from package.json
+        BASE_VERSION=$(node -p "require('./package-tools/npm-package/package.json').version")
+        
+        # Set different version strategies based on event type
+        if [[ "${{ github.event_name }}" == "release" ]]; then
+          # For releases, use the tag name without the 'v' prefix
+          VERSION=$(echo ${{ github.ref_name }} | sed 's/^v//')
+          VERSION_TAG=""
+          NPM_TAG="latest"
+          IS_PUBLISH="true"
+        elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+          # For scheduled builds (nightly)
+          DATE=$(date +'%Y%m%d')
+          VERSION="${BASE_VERSION}-nightly.${DATE}"
+          VERSION_TAG="nightly"
+          NPM_TAG="nightly"
+          IS_PUBLISH="true"
+        elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+          # For pushes to main
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          VERSION="${BASE_VERSION}-beta.${SHORT_SHA}"
+          VERSION_TAG="beta"
+          NPM_TAG="beta"
+          IS_PUBLISH="true"
+        elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          # For pull requests
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          VERSION="${BASE_VERSION}-pr.${PR_NUMBER}"
+          VERSION_TAG="pr.${PR_NUMBER}"
+          NPM_TAG="pr-${PR_NUMBER}"
+          IS_PUBLISH="true"
+        else
+          # Default case
+          VERSION="${BASE_VERSION}"
+          VERSION_TAG=""
+          NPM_TAG="latest"
+          IS_PUBLISH="false"
+        fi
+        
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "version_tag=${VERSION_TAG}" >> $GITHUB_OUTPUT
+        echo "npm_tag=${NPM_TAG}" >> $GITHUB_OUTPUT
+        echo "is_publish=${IS_PUBLISH}" >> $GITHUB_OUTPUT
+        
+        echo "Version: ${VERSION}"
+        echo "Version Tag: ${VERSION_TAG}"
+        echo "NPM Tag: ${NPM_TAG}"
+        echo "Publish: ${IS_PUBLISH}"
+
   build-npm-package:
     name: Build NPM Package
+    needs: set-version
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -29,6 +100,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://registry.npmjs.org'
+    
+    - name: Update version in package.json
+      if: needs.set-version.outputs.is_publish == 'true'
+      working-directory: package-tools/npm-package
+      run: |
+        # Use appropriate command based on OS
+        if [ "${{ runner.os }}" == "Windows" ]; then
+          (Get-Content package.json) -replace '"version": ".*"', '"version": "${{ needs.set-version.outputs.version }}"' | Set-Content package.json
+        else
+          sed -i 's/"version": ".*"/"version": "${{ needs.set-version.outputs.version }}"/g' package.json
+        fi
     
     - name: Install dependencies
       working-directory: package-tools/npm-package
@@ -49,14 +131,16 @@ jobs:
         path: package-tools/npm-package/*.tgz
     
     - name: Publish NPM package
-      if: github.event_name == 'release' && matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
+      # Only publish from Ubuntu with Node 20.x when is_publish is true
+      if: needs.set-version.outputs.is_publish == 'true' && matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
       working-directory: package-tools/npm-package
-      run: npm publish
+      run: npm publish --tag ${{ needs.set-version.outputs.npm_tag }}
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   build-nuget-package:
     name: Build NuGet Package
+    needs: set-version
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -73,6 +157,17 @@ jobs:
         source-url: https://api.nuget.org/v3/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+    
+    - name: Update version in project file
+      if: needs.set-version.outputs.is_publish == 'true'
+      working-directory: package-tools/nuget-package
+      run: |
+        # Use appropriate command based on OS
+        if [ "${{ runner.os }}" == "Windows" ]; then
+          (Get-Content ClinerRules.csproj) -replace '<Version>.*</Version>', '<Version>${{ needs.set-version.outputs.version }}</Version>' | Set-Content ClinerRules.csproj
+        else
+          sed -i 's/<Version>.*<\/Version>/<Version>${{ needs.set-version.outputs.version }}<\/Version>/g' ClinerRules.csproj
+        fi
     
     - name: Build NuGet package
       working-directory: package-tools/nuget-package
@@ -102,14 +197,21 @@ jobs:
         path: package-tools/nuget-package/bin/Release/*.nupkg
     
     - name: Publish NuGet package
-      if: github.event_name == 'release' && matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '8.0.x'
+      # Only publish from Ubuntu with .NET 8.0.x when is_publish is true
+      if: needs.set-version.outputs.is_publish == 'true' && matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '8.0.x'
       working-directory: package-tools/nuget-package
-      run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }}
+      # Add --pre flag for prerelease versions
+      run: |
+        if [[ "${{ needs.set-version.outputs.version_tag }}" != "" ]]; then
+          dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        else
+          dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        fi
 
   update-documentation:
     name: Update Documentation
-    needs: [build-npm-package, build-nuget-package]
-    if: github.event_name == 'release'
+    needs: [set-version, build-npm-package, build-nuget-package]
+    if: needs.set-version.outputs.is_publish == 'true' && github.event_name == 'release'
     runs-on: ubuntu-latest
     
     steps:
@@ -122,7 +224,7 @@ jobs:
     
     - name: Update version references in documentation
       run: |
-        VERSION=$(echo ${{ github.ref_name }} | sed 's/v//')
+        VERSION="${{ needs.set-version.outputs.version }}"
         find package-tools -type f -name "*.md" -exec sed -i "s/1\.0\.0/$VERSION/g" {} \;
     
     - name: Commit documentation changes
@@ -130,5 +232,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add package-tools/**/*.md
-        git commit -m "Update version references in documentation to ${{ github.ref_name }}" || echo "No changes to commit"
+        git commit -m "Update version references in documentation to ${{ needs.set-version.outputs.version }}" || echo "No changes to commit"
         git push

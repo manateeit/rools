@@ -7,8 +7,44 @@ on:
       - 'main'
 
 jobs:
+  # Set version variables
+  set-version:
+    name: Set Version Variables
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+      version_tag: ${{ steps.set-version.outputs.version_tag }}
+      npm_tag: ${{ steps.set-version.outputs.npm_tag }}
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for proper versioning
+    
+    - name: Set version variables
+      id: set-version
+      run: |
+        # Default version from package.json
+        BASE_VERSION=$(node -p "require('./package-tools/npm-package/package.json').version")
+        
+        # For dev builds, use branch name and commit hash
+        BRANCH_NAME=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9]/-/g')
+        SHORT_SHA=$(git rev-parse --short HEAD)
+        VERSION="${BASE_VERSION}-${BRANCH_NAME}.${SHORT_SHA}"
+        VERSION_TAG="dev"
+        NPM_TAG="dev-${BRANCH_NAME}"
+        
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "version_tag=${VERSION_TAG}" >> $GITHUB_OUTPUT
+        echo "npm_tag=${NPM_TAG}" >> $GITHUB_OUTPUT
+        
+        echo "Version: ${VERSION}"
+        echo "Version Tag: ${VERSION_TAG}"
+        echo "NPM Tag: ${NPM_TAG}"
+
   build-npm-package:
     name: Build NPM Package
+    needs: set-version
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -22,6 +58,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Update version in package.json
+      working-directory: package-tools/npm-package
+      run: |
+        sed -i 's/"version": ".*"/"version": "${{ needs.set-version.outputs.version }}"/g' package.json
     
     - name: Install dependencies
       working-directory: package-tools/npm-package
@@ -40,9 +82,16 @@ jobs:
       with:
         name: npm-package-dev-build
         path: package-tools/npm-package/*.tgz
+    
+    - name: Publish NPM package
+      working-directory: package-tools/npm-package
+      run: npm publish --tag ${{ needs.set-version.outputs.npm_tag }}
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   build-nuget-package:
     name: Build NuGet Package
+    needs: set-version
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -56,6 +105,14 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
+        source-url: https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+    
+    - name: Update version in project file
+      working-directory: package-tools/nuget-package
+      run: |
+        sed -i 's/<Version>.*<\/Version>/<Version>${{ needs.set-version.outputs.version }}<\/Version>/g' ClinerRules.csproj
     
     - name: Build NuGet package
       working-directory: package-tools/nuget-package
@@ -76,3 +133,7 @@ jobs:
       with:
         name: nuget-package-dev-build
         path: package-tools/nuget-package/bin/Release/*.nupkg
+    
+    - name: Publish NuGet package
+      working-directory: package-tools/nuget-package
+      run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
