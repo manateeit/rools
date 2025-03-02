@@ -76,6 +76,11 @@ To use the GitHub Actions workflow for publishing:
 
 3. The workflow will automatically build, test, and publish both packages to their respective registries
 
+The workflow runs automatically on:
+- Push to any branch (development builds)
+- Pull requests to the main branch
+- Creation of a new release
+
 ## License
 
 MIT

@@ -125,6 +125,11 @@ The repository includes a GitHub Actions workflow that automates the building, t
 - **Automated Publishing**: Publishes packages to NPM and NuGet when a GitHub release is created
 - **Documentation Updates**: Automatically updates version references in documentation files
 
+The workflow runs automatically on:
+- Push to any branch (development builds)
+- Pull requests to the main branch
+- Creation of a new release
+
 To use the GitHub Actions workflow for publishing:
 
 1. Set up the required secrets in your GitHub repository:

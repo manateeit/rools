@@ -223,7 +223,7 @@ To use the GitHub Actions workflow:
 ### Usage
 
 The workflow runs automatically on:
-- Push to the main branch
+- Push to any branch (development builds)
 - Pull requests to the main branch
 - Creation of a new release
 

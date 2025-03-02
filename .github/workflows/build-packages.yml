@@ -1,8 +1,14 @@
 name: Build Packages
 
 on:
+  # Run on pushes to any branch
   push:
-    branches: [ main ]
+    branches:
+      - '**'        # All branches
+    branches-ignore:
+      - 'main'      # Exclude main branch from the above (handled separately)
+  
+  # Specific workflows for main branch PRs and releases
   pull_request:
     branches: [ main ]
   release:
