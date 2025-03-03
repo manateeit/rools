@@ -1,5 +1,5 @@
 {
-  "name": "@automate everything.cc/roo-code-memory-bank",
+  "name": "@automateeverything.cc/roo-code-memory-bank",
   "version": "1.0.0",
   "description": "Configuration files for Cline that are extracted to consuming projects during installation",
   "main": "index.js",
