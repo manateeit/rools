@@ -142,6 +142,29 @@ async function extractConfig() {
     }
     
     console.log('Configuration files extracted successfully!');
+    
+    // Run the populate-system-vars.js script to update system variables in the extracted files
+    try {
+      console.log('\nPopulating system variables in the extracted files...');
+      const populateScript = path.join(__dirname, 'populate-system-vars.js');
+      
+      // Change to the target directory to run the script
+      const originalDir = process.cwd();
+      process.chdir(targetDir);
+      
+      // Execute the script
+      require('child_process').execSync(`node "${populateScript}"`, {
+        stdio: 'inherit'
+      });
+      
+      // Change back to the original directory
+      process.chdir(originalDir);
+      
+      console.log('System variables populated successfully!');
+    } catch (populateErr) {
+      console.error('Error populating system variables:', populateErr);
+      // Continue even if populating system variables fails
+    }
   } catch (err) {
     console.error('Error extracting configuration files:', err);
     process.exit(1);

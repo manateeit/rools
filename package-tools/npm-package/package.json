@@ -23,6 +23,7 @@
   "files": [
     "scripts/extract-config.js",
     "scripts/prepare-package.js",
+    "scripts/populate-system-vars.js",
     "bin/cline-rules-extract.js",
     "README.md",
     ".clinerules-*",

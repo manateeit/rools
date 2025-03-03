@@ -101,6 +101,15 @@ async function preparePackage() {
       await copyFileWithDir(roomodesPath, targetRoomodesPath);
     }
     
+    // Copy populate-system-vars.js from the repository root if it exists
+    const populateScriptPath = path.join(repoRootDir, 'scripts', 'populate-system-vars.js');
+    if (fs.existsSync(populateScriptPath)) {
+      const targetPopulateScriptPath = path.join(packageDir, 'scripts', 'populate-system-vars.js');
+      await copyFileWithDir(populateScriptPath, targetPopulateScriptPath);
+    } else {
+      console.warn(`Warning: populate-system-vars.js not found in ${path.join(repoRootDir, 'scripts')}`);
+    }
+    
     console.log('Package preparation completed successfully!');
   } catch (err) {
     console.error('Error preparing package files:', err);
