@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // This script allows users to manually extract the configuration files
-// It simply calls the extract-config.js script
+// It simply calls the extract-config.js script which extracts files from the repository root
 
 const path = require('path');
 const { spawn } = require('child_process');

@@ -12,11 +12,12 @@ The configuration files include:
 
 ### NPM Package (`npm-package/`)
 
-The NPM package uses a postinstall script to extract configuration files to the root of the consuming project during installation.
+The NPM package uses a postinstall script to extract configuration files from the repository root to the root of the consuming project during installation.
 
 Key features:
 - Automatic extraction during `npm install`
 - Manual extraction via `npx cline-rules-extract`
+- Extracts files directly from the repository root
 - Preserves existing files to avoid overwriting local modifications
 
 See the [NPM package README](npm-package/README.md) for detailed instructions.
@@ -41,7 +42,7 @@ See the [NuGet package README](nuget-package/README.md) for detailed instruction
 
 When updating the configuration files:
 
-1. Update the files in both package implementations
+1. Update the files in the repository root
 2. Increment the version number according to semantic versioning:
    - **Patch version** (1.0.x): For minor changes or corrections
    - **Minor version** (1.x.0): For new features or non-breaking changes
@@ -51,7 +52,7 @@ When updating the configuration files:
 
 ## Development Workflow
 
-1. Make changes to configuration files in both package implementations
+1. Make changes to configuration files in the repository root
 2. Test the packages locally
 3. Update version numbers
 4. Publish the packages (manually or via GitHub Actions)

@@ -4,6 +4,7 @@ This package contains configuration files for Cline that are automatically extra
 
 ## Contents
 
+The package extracts the following files from the repository root:
 - `.clinerules-*` files: Configuration files for different Cline modes
 - `.roo/` directory: System prompt files and other Cline-related configurations
 
@@ -13,7 +14,7 @@ This package contains configuration files for Cline that are automatically extra
 npm install @automateeverything.cc/roo-code-memory-bank
 ```
 
-During installation, the package will automatically extract all configuration files to the root of your project.
+During installation, the package will automatically extract all configuration files from the repository root to the root of your project.
 
 ## Manual Extraction
 
@@ -47,12 +48,12 @@ clinerRules.extractConfigFiles('/path/to/target/directory');
 
 If you're maintaining this package and need to publish updates:
 
-1. Update the configuration files as needed
+1. Update the configuration files in the repository root as needed
 2. Update the version in `package.json`
 3. Publish to npm:
 
 ```bash
-npm publish
+npm publish --access public
 ```
 
 ## Updating

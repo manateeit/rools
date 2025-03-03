@@ -25,7 +25,7 @@ This guide provides detailed instructions for developers working with the Roo Co
 
 ## NPM Package
 
-The NPM package (`@automateeverything.cc/roo-code-memory-bank`) contains configuration files that are automatically extracted to the root of consuming projects during installation.
+The NPM package (`@automateeverything.cc/roo-code-memory-bank`) contains configuration files that are automatically extracted from the repository root to the root of consuming projects during installation.
 
 ### Publishing NPM
 
@@ -36,7 +36,7 @@ To publish the NPM package:
    cd package-tools/npm-package
    ```
 
-2. Update the configuration files as needed:
+2. Ensure the configuration files in the repository root are up to date:
    - `.clinerules-*` files
    - `.roo/` directory contents
 
@@ -66,7 +66,7 @@ To use the NPM package in a project:
    npm install @automateeverything.cc/roo-code-memory-bank
    ```
 
-2. The configuration files will be automatically extracted to the project root during installation.
+2. The configuration files will be automatically extracted from the repository root to the project root during installation.
 
 3. If you need to manually extract the files (e.g., after updating):
    ```bash
@@ -110,6 +110,7 @@ To update the package in a project:
 - **Files not extracted**: Check if the postinstall script ran successfully. You can manually run `npx cline-rules-extract`.
 - **Permission issues**: Ensure you have write permissions to the project root directory.
 - **Conflicts with existing files**: The extraction script will not overwrite existing files. Delete the existing files if you want to force an update.
+- **Wrong files extracted**: Ensure the repository root is correctly identified by the extraction script. The script looks for files in the repository root, not in the package directory.
 
 ---
 
@@ -278,3 +279,4 @@ You can customize the workflows by editing the workflow files:
 6. **Version consistently**: Use the same version number for both packages to maintain consistency.
 7. **Monitor issues**: Regularly check for issues reported by users and address them promptly.
 8. **Use feature branches**: Develop new features in separate branches to take advantage of the development workflow.
+9. **Keep repository root files up to date**: Since the NPM package extracts files from the repository root, ensure these files are always up to date.

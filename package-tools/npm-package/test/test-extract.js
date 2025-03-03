@@ -4,7 +4,7 @@
  * Test script for the roo-code-memory-bank package
  * 
  * This script demonstrates how to use the package programmatically
- * to extract configuration files to a specified directory.
+ * to extract configuration files from the repository root to a specified directory.
  */
 
 const path = require('path');
@@ -21,7 +21,7 @@ if (!fs.existsSync(testDir)) {
 }
 
 // Extract configuration files to the test directory
-console.log(`Extracting configuration files to: ${testDir}`);
+console.log(`Extracting configuration files from repository root to: ${testDir}`);
 const result = clinerRules.extractConfigFiles(testDir);
 
 if (result) {
