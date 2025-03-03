@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>RooCodeMemoryBank</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>AutomateEverything.cc</Authors>
+    <Company>AutomateEverything.cc</Company>
+    <Description>Configuration files for Cline that are extracted to consuming projects during build</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Include configuration files individually -->
+    <Content Include="content\.clinerules-architect" PackagePath="content/.clinerules-architect" />
+    <Content Include="content\.clinerules-code" PackagePath="content/.clinerules-code" />
+    
+    <!-- Include .roo directory files -->
+    <Content Include="content\.roo\**\*" PackagePath="content/.roo/" />
+    
+    <!-- Include build targets -->
+    <Content Include="build\ClinerRules.targets" PackagePath="build\RooCodeMemoryBank.targets" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,59 @@
+# Test script for the RooCodeMemoryBank NuGet package
+# This script demonstrates how to install and use the package in a .NET project
+
+# Configuration
+$testProjectName = "RooCodeMemoryBankTest"
+$testProjectDir = Join-Path $PSScriptRoot $testProjectName
+$packageVersion = "1.0.0"
+
+# Create a test directory if it doesn't exist
+if (-not (Test-Path $testProjectDir)) {
+    New-Item -ItemType Directory -Path $testProjectDir | Out-Null
+    Write-Host "Created test directory: $testProjectDir"
+}
+
+# Navigate to the test directory
+Push-Location $testProjectDir
+
+try {
+    # Create a new console application
+    Write-Host "Creating new .NET console application..."
+    dotnet new console
+
+    # Add the RooCodeMemoryBank package
+    # Note: In a real scenario, you would use the published package from NuGet
+    # For testing, we'll use a local package reference
+    Write-Host "Adding RooCodeMemoryBank package reference..."
+    
+    # Build and pack the RooCodeMemoryBank package
+    Push-Location (Join-Path $PSScriptRoot "..")
+    dotnet build
+    dotnet pack -c Release
+    $packagePath = Resolve-Path (Join-Path "bin/Release" "RooCodeMemoryBank.$packageVersion.nupkg")
+    Pop-Location
+    
+    # Add the package reference
+    dotnet add package RooCodeMemoryBank --source (Split-Path $packagePath -Parent) --version $packageVersion
+    
+    # Build the project to trigger the extraction
+    Write-Host "Building the project to trigger extraction..."
+    dotnet build
+    
+    # List the extracted files
+    Write-Host "`nExtracted files in project root:"
+    Get-ChildItem -Path $testProjectDir -Hidden | Where-Object { $_.Name -like ".clinerules-*" -or $_.Name -eq ".roo" } | ForEach-Object {
+        if ($_.PSIsContainer) {
+            Write-Host "- $($_.Name) (directory)"
+            Get-ChildItem -Path $_.FullName | ForEach-Object {
+                Write-Host "  - $($_.Name)"
+            }
+        } else {
+            Write-Host "- $($_.Name)"
+        }
+    }
+    
+    Write-Host "`nTest completed successfully!"
+} finally {
+    # Return to the original directory
+    Pop-Location
+}

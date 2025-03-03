@@ -1,0 +1,35 @@
+{
+  "name": "@automateeverything.cc/roo-code-memory-bank",
+  "version": "1.0.0",
+  "description": "Configuration files for Cline that are extracted to consuming projects during installation",
+  "main": "index.js",
+  "bin": {
+    "cline-rules-extract": "./bin/cline-rules-extract.js"
+  },
+  "scripts": {
+    "prepare": "node scripts/prepare-package.js",
+    "postinstall": "node scripts/extract-config.js",
+    "test": "node test/test-extract.js"
+  },
+  "keywords": [
+    "cline",
+    "configuration",
+    "rules",
+    "memory-bank",
+    "roo"
+  ],
+  "author": "",
+  "license": "MIT",
+  "files": [
+    "scripts/extract-config.js",
+    "scripts/prepare-package.js",
+    "scripts/populate-system-vars.js",
+    "bin/cline-rules-extract.js",
+    "README.md",
+    ".clinerules-*",
+    ".roo/**"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
