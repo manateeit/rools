@@ -15,6 +15,8 @@ const targetDir = process.argv[2];
 if (targetDir) {
   process.env.TARGET_DIR = path.resolve(targetDir);
   console.log(`Target directory set to: ${process.env.TARGET_DIR}`);
+} else {
+  console.log('No target directory specified. Files will be extracted to the root of your project.');
 }
 
 // Run the extraction script
@@ -24,5 +26,10 @@ const child = spawn('node', [extractScript], {
 });
 
 child.on('close', (code) => {
+  if (code === 0) {
+    console.log('Configuration files extracted successfully!');
+  } else {
+    console.error(`Extraction failed with code ${code}`);
+  }
   process.exit(code);
 });

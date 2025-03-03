@@ -4,9 +4,10 @@ This package contains configuration files for Cline that are automatically extra
 
 ## Contents
 
-The package extracts the following files from the repository root:
+The package includes the following files:
 - `.clinerules-*` files: Configuration files for different Cline modes
 - `.roo/` directory: System prompt files and other Cline-related configurations
+- `.roomodes` file: Custom mode configurations
 
 ## Installation
 
@@ -14,7 +15,7 @@ The package extracts the following files from the repository root:
 npm install @automateeverything.cc/roo-code-memory-bank
 ```
 
-During installation, the package will automatically extract all configuration files from the repository root to the root of your project.
+During installation, the package will automatically extract all configuration files to the root of your project, overwriting any existing files with the same names.
 
 ## Manual Extraction
 
@@ -64,7 +65,7 @@ When updating the package in your project:
 npm update @automateeverything.cc/roo-code-memory-bank
 ```
 
-The updated configuration files will be automatically extracted during the update process.
+The updated configuration files will be automatically extracted during the update process, overwriting any existing files.
 
 ## Versioning
 
@@ -86,9 +87,12 @@ Different build types are available:
 
 ## Handling Conflicts
 
-The extraction process will not overwrite existing files by default. If you've made local modifications to the configuration files, they will be preserved.
+The extraction process will overwrite existing files. If you've made local modifications to the configuration files, they will be lost when the package is installed or updated.
 
-If you want to force an update of all configuration files, you can delete the existing files before updating the package.
+If you want to preserve your local modifications, you should:
+1. Back up your modified files before updating the package
+2. Reapply your modifications after the update
+3. Consider creating a custom fork of this package with your modifications
 
 ## License
 

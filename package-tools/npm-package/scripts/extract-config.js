@@ -19,15 +19,44 @@ const packageDir = path.resolve(__dirname, '..');
 // This is the package directory itself, as the files are now bundled with the package
 const sourceDir = packageDir;
 
+// Find the root of the consuming repository
+function findProjectRoot(startDir) {
+  // If we're not in node_modules, just use the current directory
+  if (!isInNodeModules) {
+    return process.cwd();
+  }
+
+  // Start from the package directory and go up until we find a directory that's not node_modules
+  let currentDir = startDir;
+  
+  // Maximum number of levels to go up to prevent infinite loops
+  const maxLevels = 10;
+  let levels = 0;
+  
+  while (currentDir.includes('node_modules') && levels < maxLevels) {
+    currentDir = path.dirname(currentDir);
+    levels++;
+  }
+  
+  // If we've gone up too many levels without finding a non-node_modules directory,
+  // fall back to the default behavior
+  if (levels >= maxLevels) {
+    console.warn('Warning: Could not determine project root. Using default.');
+    return path.resolve(packageDir, '..', '..');
+  }
+  
+  return currentDir;
+}
+
 // Get the target directory (the root of the project that installed our package)
 // Priority:
 // 1. TARGET_DIR environment variable (for programmatic use)
-// 2. If we're in node_modules, go up to the project root
+// 2. If we're in node_modules, find the project root
 // 3. If we're running this script directly (for development), use the current directory
 const targetDir = process.env.TARGET_DIR 
   ? process.env.TARGET_DIR
   : isInNodeModules 
-    ? path.resolve(packageDir, '..', '..') 
+    ? findProjectRoot(packageDir)
     : process.cwd();
 
 /**
