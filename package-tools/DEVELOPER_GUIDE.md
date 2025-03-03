@@ -1,4 +1,4 @@
- # Roo Code Memory Bank Package Developer Guide
+# Roo Code Memory Bank Package Developer Guide
 
 This guide provides detailed instructions for developers working with the Roo Code Memory Bank packages for both NPM and NuGet ecosystems.
 
@@ -25,7 +25,7 @@ This guide provides detailed instructions for developers working with the Roo Co
 
 ## NPM Package
 
-The NPM package (`@automateeverything.cc/RooCodeMemoryBank`) contains configuration files that are automatically extracted to the root of consuming projects during installation.
+The NPM package (`@automateeverything.cc/roo-code-memory-bank`) contains configuration files that are automatically extracted to the root of consuming projects during installation.
 
 ### Publishing NPM
 
@@ -63,7 +63,7 @@ To use the NPM package in a project:
 
 1. Install the package:
    ```bash
-   npm install @automateeverything.cc/RooCodeMemoryBank
+   npm install @automateeverything.cc/roo-code-memory-bank
    ```
 
 2. The configuration files will be automatically extracted to the project root during installation.
@@ -80,7 +80,7 @@ To use the NPM package in a project:
 
 4. For programmatic use:
    ```javascript
-   const clinerRules = require('@automateeverything.cc/RooCodeMemoryBank');
+   const clinerRules = require('@automateeverything.cc/roo-code-memory-bank');
    
    // Extract to current directory
    clinerRules.extractConfigFiles();
@@ -95,7 +95,7 @@ To update the package in a project:
 
 1. Update the package:
    ```bash
-   npm update @automateeverything.cc/RooCodeMemoryBank
+   npm update @automateeverything.cc/roo-code-memory-bank
    ```
 
 2. The updated configuration files will be automatically extracted during the update.

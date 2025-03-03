@@ -70,13 +70,13 @@ Both packages include test scripts to verify the extraction functionality:
 
 ```bash
 # Install the package
-npm install @automateeverything.cc/RooCodeMemoryBank
+npm install @automateeverything.cc/roo-code-memory-bank
 
 # Manual extraction
 npx cline-rules-extract
 
 # Programmatic use
-const clinerRules = require('@automateeverything.cc/RooCodeMemoryBank');
+const clinerRules = require('@automateeverything.cc/roo-code-memory-bank');
 clinerRules.extractConfigFiles();
 ```
 

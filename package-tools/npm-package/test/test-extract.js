@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Test script for the RooCodeMemoryBank package
+ * Test script for the roo-code-memory-bank package
  * 
  * This script demonstrates how to use the package programmatically
  * to extract configuration files to a specified directory.

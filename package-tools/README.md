@@ -34,7 +34,7 @@ See the [NuGet package README](nuget-package/README.md) for detailed instruction
 
 ## Choosing the Right Package
 
-- **For JavaScript/TypeScript/Node.js projects**: Use the NPM package (`@automateeverything.cc/RooCodeMemoryBank`)
+- **For JavaScript/TypeScript/Node.js projects**: Use the NPM package (`@automateeverything.cc/roo-code-memory-bank`)
 - **For .NET/C# projects**: Use the NuGet package (`RooCodeMemoryBank`)
 
 ## Updating Configuration Files
