@@ -85,7 +85,7 @@ jobs:
     
     - name: Publish NPM package
       working-directory: package-tools/npm-package
-      run: npm publish --tag ${{ needs.set-version.outputs.npm_tag }}
+      run: npm publish --tag ${{ needs.set-version.outputs.npm_tag }} --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

@@ -1,4 +1,4 @@
- # ClinerRules NuGet Package
+# Roo Code Memory Bank NuGet Package
 
 This package contains configuration files for Cline that are automatically extracted to the root of your project during build.
 
@@ -12,13 +12,13 @@ This package contains configuration files for Cline that are automatically extra
 Install the package via NuGet Package Manager:
 
 ```
-Install-Package ClinerRules
+Install-Package RooCodeMemoryBank
 ```
 
 Or using the .NET CLI:
 
 ```
-dotnet add package ClinerRules
+dotnet add package RooCodeMemoryBank
 ```
 
 During the build process, the package will automatically extract all configuration files to the root of your project.
@@ -33,7 +33,7 @@ The package includes an MSBuild target that runs during the build process to ext
 
 ## Creating and Packaging
 
-To create and package the ClinerRules NuGet package:
+To create and package the RooCodeMemoryBank NuGet package:
 
 1. Update the configuration files in the `content/` directory as needed
 2. Update the version in the `.csproj` file
@@ -54,7 +54,7 @@ To publish the package to NuGet:
 2. Push the package:
 
 ```
-dotnet nuget push bin/Release/ClinerRules.1.0.0.nupkg -k YOUR_API_KEY -s https://api.nuget.org/v3/index.json
+dotnet nuget push bin/Release/RooCodeMemoryBank.1.0.0.nupkg -k YOUR_API_KEY -s https://api.nuget.org/v3/index.json
 ```
 
 ## Updating
@@ -62,7 +62,7 @@ dotnet nuget push bin/Release/ClinerRules.1.0.0.nupkg -k YOUR_API_KEY -s https:/
 When updating the package in your project:
 
 ```
-dotnet add package ClinerRules --version X.Y.Z
+dotnet add package RooCodeMemoryBank --version X.Y.Z
 ```
 
 Or update via the NuGet Package Manager.
@@ -76,6 +76,15 @@ When making changes to the configuration files:
 - **Patch version** (1.0.x): For minor changes or corrections that don't affect functionality
 - **Minor version** (1.x.0): For new features or non-breaking changes
 - **Major version** (x.0.0): For breaking changes that might require manual intervention
+
+## Build Types
+
+Different build types are available:
+
+- **Latest stable release**: Standard NuGet package
+- **Beta builds**: Prerelease packages with `-beta` suffix
+- **Nightly builds**: Prerelease packages with `-nightly` suffix
+- **Feature branch builds**: Prerelease packages with branch name in suffix
 
 ## Handling Conflicts
 

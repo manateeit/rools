@@ -1,8 +1,8 @@
-# Test script for the ClinerRules NuGet package
+# Test script for the RooCodeMemoryBank NuGet package
 # This script demonstrates how to install and use the package in a .NET project
 
 # Configuration
-$testProjectName = "ClinerRulesTest"
+$testProjectName = "RooCodeMemoryBankTest"
 $testProjectDir = Join-Path $PSScriptRoot $testProjectName
 $packageVersion = "1.0.0"
 
@@ -20,20 +20,20 @@ try {
     Write-Host "Creating new .NET console application..."
     dotnet new console
 
-    # Add the ClinerRules package
+    # Add the RooCodeMemoryBank package
     # Note: In a real scenario, you would use the published package from NuGet
     # For testing, we'll use a local package reference
-    Write-Host "Adding ClinerRules package reference..."
+    Write-Host "Adding RooCodeMemoryBank package reference..."
     
-    # Build and pack the ClinerRules package
+    # Build and pack the RooCodeMemoryBank package
     Push-Location (Join-Path $PSScriptRoot "..")
     dotnet build
     dotnet pack -c Release
-    $packagePath = Resolve-Path (Join-Path "bin/Release" "ClinerRules.$packageVersion.nupkg")
+    $packagePath = Resolve-Path (Join-Path "bin/Release" "RooCodeMemoryBank.$packageVersion.nupkg")
     Pop-Location
     
     # Add the package reference
-    dotnet add package ClinerRules --source (Split-Path $packagePath -Parent) --version $packageVersion
+    dotnet add package RooCodeMemoryBank --source (Split-Path $packagePath -Parent) --version $packageVersion
     
     # Build the project to trigger the extraction
     Write-Host "Building the project to trigger extraction..."

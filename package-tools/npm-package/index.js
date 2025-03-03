@@ -1,5 +1,5 @@
 /**
- * Cline Rules
+ * Roo Code Memory Bank
  * 
  * This package contains configuration files for Cline that are automatically
  * extracted to the root of consuming projects during installation.

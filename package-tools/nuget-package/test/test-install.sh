@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Test script for the ClinerRules NuGet package
+# Test script for the RooCodeMemoryBank NuGet package
 # This script demonstrates how to install and use the package in a .NET project
 
 # Configuration
-TEST_PROJECT_NAME="ClinerRulesTest"
+TEST_PROJECT_NAME="RooCodeMemoryBankTest"
 TEST_PROJECT_DIR="$(dirname "$0")/$TEST_PROJECT_NAME"
 PACKAGE_VERSION="1.0.0"
 
@@ -21,21 +21,21 @@ pushd "$TEST_PROJECT_DIR" > /dev/null
 echo "Creating new .NET console application..."
 dotnet new console
 
-# Add the ClinerRules package
+# Add the RooCodeMemoryBank package
 # Note: In a real scenario, you would use the published package from NuGet
 # For testing, we'll use a local package reference
-echo "Adding ClinerRules package reference..."
+echo "Adding RooCodeMemoryBank package reference..."
 
-# Build and pack the ClinerRules package
+# Build and pack the RooCodeMemoryBank package
 pushd "$(dirname "$0")/.." > /dev/null
 dotnet build
 dotnet pack -c Release
-PACKAGE_PATH=$(find "$(pwd)/bin/Release" -name "ClinerRules.$PACKAGE_VERSION.nupkg" | head -n 1)
+PACKAGE_PATH=$(find "$(pwd)/bin/Release" -name "RooCodeMemoryBank.$PACKAGE_VERSION.nupkg" | head -n 1)
 PACKAGE_DIR=$(dirname "$PACKAGE_PATH")
 popd > /dev/null
 
 # Add the package reference
-dotnet add package ClinerRules --source "$PACKAGE_DIR" --version $PACKAGE_VERSION
+dotnet add package RooCodeMemoryBank --source "$PACKAGE_DIR" --version $PACKAGE_VERSION
 
 # Build the project to trigger the extraction
 echo "Building the project to trigger extraction..."

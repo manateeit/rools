@@ -1,4 +1,4 @@
-# Cline Rules Package Tools
+# Roo Code Memory Bank Package Tools
 
 This directory contains implementations for distributing Cline configuration files as packages for both NPM (JavaScript/Node.js) and NuGet (.NET) ecosystems. These packages automatically extract configuration files to the root of consuming projects during installation or build.
 
@@ -34,8 +34,8 @@ See the [NuGet package README](nuget-package/README.md) for detailed instruction
 
 ## Choosing the Right Package
 
-- **For JavaScript/TypeScript/Node.js projects**: Use the NPM package
-- **For .NET/C# projects**: Use the NuGet package
+- **For JavaScript/TypeScript/Node.js projects**: Use the NPM package (`@automateeverything.cc/RooCodeMemoryBank`)
+- **For .NET/C# projects**: Use the NuGet package (`RooCodeMemoryBank`)
 
 ## Updating Configuration Files
 
@@ -70,6 +70,18 @@ These workflows provide:
 - **Artifact Generation**: Creates package artifacts for each build configuration
 - **Automated Publishing**: Publishes packages to NPM and NuGet when a GitHub release is created
 - **Documentation Updates**: Automatically updates version references in documentation files
+
+## Build Types
+
+Different build types are available:
+
+- **Release builds**: When a GitHub release is created (tag: latest)
+- **Beta builds**: When code is pushed to the main branch (tag: beta)
+- **Nightly builds**: From daily scheduled runs (tag: nightly)
+- **PR builds**: When a PR is opened against main (tag: pr-{number})
+- **Branch builds**: When code is pushed to non-main branches (tag: dev-{branch-name})
+
+## Publishing
 
 To use the GitHub Actions workflow for publishing:
 

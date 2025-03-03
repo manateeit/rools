@@ -1,5 +1,5 @@
 {
-  "name": "cline-rules",
+  "name": "@automateeverything.cc/RooCodeMemoryBank",
   "version": "1.0.0",
   "description": "Configuration files for Cline that are extracted to consuming projects during installation",
   "main": "index.js",
@@ -13,7 +13,9 @@
   "keywords": [
     "cline",
     "configuration",
-    "rules"
+    "rules",
+    "memory-bank",
+    "roo"
   ],
   "author": "",
   "license": "MIT",
@@ -23,5 +25,8 @@
     "scripts/extract-config.js",
     "bin/cline-rules-extract.js",
     "README.md"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,4 +1,4 @@
-# Cline Rules
+# Roo Code Memory Bank
 
 This package contains configuration files for Cline that are automatically extracted to the root of your project during installation.
 
@@ -10,7 +10,7 @@ This package contains configuration files for Cline that are automatically extra
 ## Installation
 
 ```bash
-npm install cline-rules
+npm install @automateeverything.cc/RooCodeMemoryBank
 ```
 
 During installation, the package will automatically extract all configuration files to the root of your project.
@@ -34,7 +34,7 @@ npx cline-rules-extract /path/to/target/directory
 You can also use the package programmatically:
 
 ```javascript
-const clinerRules = require('cline-rules');
+const clinerRules = require('@automateeverything.cc/RooCodeMemoryBank');
 
 // Extract to current directory
 clinerRules.extractConfigFiles();
@@ -60,7 +60,7 @@ npm publish
 When updating the package in your project:
 
 ```bash
-npm update cline-rules
+npm update @automateeverything.cc/RooCodeMemoryBank
 ```
 
 The updated configuration files will be automatically extracted during the update process.
@@ -72,6 +72,16 @@ When making changes to the configuration files:
 - **Patch version** (1.0.x): For minor changes or corrections that don't affect functionality
 - **Minor version** (1.x.0): For new features or non-breaking changes
 - **Major version** (x.0.0): For breaking changes that might require manual intervention
+
+## Build Types
+
+Different build types are available:
+
+- **Latest stable release**: `npm install @automateeverything.cc/RooCodeMemoryBank`
+- **Beta builds** (from main branch): `npm install @automateeverything.cc/RooCodeMemoryBank@beta`
+- **Nightly builds**: `npm install @automateeverything.cc/RooCodeMemoryBank@nightly`
+- **Feature branch builds**: `npm install @automateeverything.cc/RooCodeMemoryBank@dev-feature-branch`
+- **Pull request builds**: `npm install @automateeverything.cc/RooCodeMemoryBank@pr-123`
 
 ## Handling Conflicts
 

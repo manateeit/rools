@@ -1,6 +1,6 @@
-# Cline Rules Package Implementation Summary
+# Roo Code Memory Bank Package Implementation Summary
 
-This document provides an overview of the implementation of the Cline Rules packages for both NPM and NuGet ecosystems.
+This document provides an overview of the implementation of the Roo Code Memory Bank packages for both NPM and NuGet ecosystems.
 
 ## Overview
 
@@ -70,13 +70,13 @@ Both packages include test scripts to verify the extraction functionality:
 
 ```bash
 # Install the package
-npm install cline-rules
+npm install @automateeverything.cc/RooCodeMemoryBank
 
 # Manual extraction
 npx cline-rules-extract
 
 # Programmatic use
-const clinerRules = require('cline-rules');
+const clinerRules = require('@automateeverything.cc/RooCodeMemoryBank');
 clinerRules.extractConfigFiles();
 ```
 
@@ -84,7 +84,7 @@ clinerRules.extractConfigFiles();
 
 ```bash
 # Install the package
-dotnet add package ClinerRules
+dotnet add package RooCodeMemoryBank
 
 # The files will be extracted during build
 dotnet build
@@ -106,7 +106,7 @@ Both packages follow semantic versioning:
 
 ```bash
 cd package-tools/npm-package
-npm publish
+npm publish --access public
 ```
 
 #### NuGet Package
@@ -114,7 +114,7 @@ npm publish
 ```bash
 cd package-tools/nuget-package
 dotnet pack -c Release
-dotnet nuget push bin/Release/ClinerRules.1.0.0.nupkg -k YOUR_API_KEY -s https://api.nuget.org/v3/index.json
+dotnet nuget push bin/Release/RooCodeMemoryBank.1.0.0.nupkg -k YOUR_API_KEY -s https://api.nuget.org/v3/index.json
 ```
 
 ### Automated Publishing with GitHub Actions
@@ -139,6 +139,16 @@ These workflows provide the following features:
 - **Artifact Generation**: Creates package artifacts for each build configuration
 - **Automated Publishing**: Publishes packages to NPM and NuGet when a GitHub release is created
 - **Documentation Updates**: Automatically updates version references in documentation files
+
+## Build Types
+
+Different build types are available:
+
+- **Release builds**: When a GitHub release is created (tag: latest)
+- **Beta builds**: When code is pushed to the main branch (tag: beta)
+- **Nightly builds**: From daily scheduled runs (tag: nightly)
+- **PR builds**: When a PR is opened against main (tag: pr-{number})
+- **Branch builds**: When code is pushed to non-main branches (tag: dev-{branch-name})
 
 The workflows run automatically on:
 - Push to any branch except main (development builds via dev-builds.yml)

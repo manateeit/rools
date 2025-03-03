@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>ClinerRules</PackageId>
+    <PackageId>RooCodeMemoryBank</PackageId>
     <Version>1.0.0</Version>
-    <Authors>Cline</Authors>
-    <Company>Cline</Company>
+    <Authors>AutomateEverything.cc</Authors>
+    <Company>AutomateEverything.cc</Company>
     <Description>Configuration files for Cline that are extracted to consuming projects during build</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IncludeBuildOutput>false</IncludeBuildOutput>
@@ -22,7 +22,7 @@
     <Content Include="content\.roo\**\*" PackagePath="content/.roo/" />
     
     <!-- Include build targets -->
-    <Content Include="build\ClinerRules.targets" PackagePath="build\ClinerRules.targets" />
+    <Content Include="build\ClinerRules.targets" PackagePath="build\RooCodeMemoryBank.targets" />
   </ItemGroup>
 
 </Project>

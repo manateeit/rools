@@ -77,7 +77,7 @@ async function copyDir(source, target) {
  */
 async function extractConfig() {
   try {
-    console.log('Extracting Cline Rules configuration files...');
+    console.log('Extracting Roo Code Memory Bank configuration files...');
     console.log(`Source: ${sourceDir}`);
     console.log(`Target: ${targetDir}`);
     
