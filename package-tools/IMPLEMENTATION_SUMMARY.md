@@ -18,6 +18,7 @@ repository-root/
     ├── README.md                  # Main README with overview of both packages
     ├── DEVELOPER_GUIDE.md         # Detailed guide for developers
     ├── IMPLEMENTATION_SUMMARY.md  # This file
+    ├── IMPLEMENTATION_PLAN.md     # Detailed implementation plan for NPM package updates
     ├── npm-package/               # NPM package implementation
     │   ├── bin/                   # CLI scripts
     │   ├── scripts/               # Extraction scripts
@@ -40,15 +41,15 @@ repository-root/
 
 ### NPM Package
 
-The NPM package uses a postinstall script to extract configuration files from the repository root to the root of the consuming project during installation. Key features include:
+The NPM package uses a postinstall script to extract configuration files to the root of the consuming project during installation. Key features include:
 
 - **Automatic extraction** during `npm install`
 - **Manual extraction** via `npx cline-rules-extract`
 - **Programmatic API** for custom extraction
 - **Preservation of existing files** to avoid overwriting local modifications
-- **Repository root sourcing** to ensure the latest configuration files are used
+- **Bundled configuration files** to ensure consistent distribution and installation
 
-The key difference in this implementation is that the NPM package extracts files directly from the repository root, not from files bundled within the package. This ensures that the latest configuration files are always used.
+The NPM package bundles the configuration files (.clinerules-* and .roo directory) within the package itself and extracts them to the consuming project during installation. This ensures consistent distribution and installation across different environments.
 
 ### NuGet Package
 
@@ -171,4 +172,18 @@ To use the GitHub Actions workflow for publishing:
 
 This implementation provides a robust solution for distributing Cline configuration files to projects in both JavaScript/Node.js and .NET ecosystems. The packages are designed to be easy to use, maintain, and update, with a focus on preserving local modifications and providing clear documentation. The included GitHub Actions workflows further streamline the development and release process, ensuring consistent builds and automated publishing for both production and development environments.
 
-The key improvement in this implementation is that the NPM package now extracts files directly from the repository root, ensuring that the latest configuration files are always used. This eliminates the need to maintain duplicate copies of the configuration files in the package directory.
+## Recent Updates
+
+### NPM Package Implementation Changes
+
+We've updated the NPM package implementation to address the following requirements:
+
+1. The package now bundles the `.clinerules-*` files and `.roo` directory from the repository root
+2. When the package is consumed, it extracts these files to the root of the consuming project, overwriting existing files
+
+Key changes include:
+
+- Updated package.json to include the configuration files in the published package
+- Added a prepare script to copy the configuration files from the repository root to the package directory before publishing
+- Modified the extract-config.js script to copy files from the package directory instead of the repository root
+- See the detailed [Implementation Plan](./IMPLEMENTATION_PLAN.md) for more information

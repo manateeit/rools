@@ -4,7 +4,7 @@
  * Test script for the roo-code-memory-bank package
  * 
  * This script demonstrates how to use the package programmatically
- * to extract configuration files from the repository root to a specified directory.
+ * to extract configuration files to a specified directory.
  */
 
 const path = require('path');
@@ -21,7 +21,7 @@ if (!fs.existsSync(testDir)) {
 }
 
 // Extract configuration files to the test directory
-console.log(`Extracting configuration files from repository root to: ${testDir}`);
+console.log(`Extracting configuration files to: ${testDir}`);
 const result = clinerRules.extractConfigFiles(testDir);
 
 if (result) {
@@ -42,6 +42,25 @@ if (result) {
     rooFiles.forEach(file => {
       console.log(`- .roo/${file}`);
     });
+  }
+  
+  // Test overwrite functionality
+  console.log('\nTesting overwrite functionality...');
+  
+  // Create a test file that will be overwritten
+  const testFile = path.join(testDir, '.clinerules-test');
+  fs.writeFileSync(testFile, 'This is a test file that should be overwritten.');
+  console.log(`Created test file: ${testFile}`);
+  
+  // Extract again to test overwrite
+  console.log('Extracting again to test overwrite...');
+  const overwriteResult = clinerRules.extractConfigFiles(testDir);
+  
+  if (overwriteResult) {
+    console.log('Second extraction successful!');
+    console.log('If any .clinerules-* files were in the package, they should have overwritten the test file.');
+  } else {
+    console.error('Second extraction failed!');
   }
 } else {
   console.error('Extraction failed!');

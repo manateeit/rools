@@ -15,12 +15,9 @@ const isInNodeModules = __dirname.includes('node_modules');
 // Get the source directory (where our package is installed)
 const packageDir = path.resolve(__dirname, '..');
 
-// Get the repository root directory (for accessing the actual .clinerules-* and .roo files)
-// When running in development, this is 3 levels up from the scripts directory
-// When running in node_modules, we need to look for the files in the project that installed us
-const repoRootDir = isInNodeModules 
-  ? path.resolve(packageDir, '..', '..') // Project that installed us
-  : path.resolve(__dirname, '..', '..', '..'); // Repository root in development
+// Get the source directory (where the configuration files are located)
+// This is the package directory itself, as the files are now bundled with the package
+const sourceDir = packageDir;
 
 // Get the target directory (the root of the project that installed our package)
 // Priority:
@@ -42,15 +39,11 @@ async function copyFileWithDir(source, target) {
     const targetDir = path.dirname(target);
     await mkdir(targetDir, { recursive: true });
     
-    // Copy the file
-    await copyFile(source, target);
-    console.log(`Copied: ${path.relative(repoRootDir, source)} -> ${path.relative(targetDir, target)}`);
+    // Copy the file, overwriting if it exists
+    await copyFile(source, target, fs.constants.COPYFILE_FICLONE);
+    console.log(`Copied: ${path.relative(sourceDir, source)} -> ${path.relative(targetDir, target)}`);
   } catch (err) {
-    if (err.code === 'EEXIST') {
-      console.warn(`Warning: ${target} already exists. Skipping.`);
-    } else {
-      console.error(`Error copying ${source} to ${target}:`, err);
-    }
+    console.error(`Error copying ${source} to ${target}:`, err);
   }
 }
 
@@ -85,14 +78,14 @@ async function copyDir(source, target) {
 async function extractConfig() {
   try {
     console.log('Extracting Roo Code Memory Bank configuration files...');
-    console.log(`Source: ${repoRootDir}`);
+    console.log(`Source: ${sourceDir}`);
     console.log(`Target: ${targetDir}`);
     
-    // Copy .clinerules-* files from the repository root
-    const files = await readdir(repoRootDir);
+    // Copy .clinerules-* files from the package directory
+    const files = await readdir(sourceDir);
     for (const file of files) {
       if (file.startsWith('.clinerules-')) {
-        const sourcePath = path.join(repoRootDir, file);
+        const sourcePath = path.join(sourceDir, file);
         const targetPath = path.join(targetDir, file);
         
         // Check if it's a file
@@ -103,13 +96,20 @@ async function extractConfig() {
       }
     }
     
-    // Copy .roo directory from the repository root if it exists
-    const rooDir = path.join(repoRootDir, '.roo');
+    // Copy .roomodes file if it exists
+    const roomodesPath = path.join(sourceDir, '.roomodes');
+    if (fs.existsSync(roomodesPath)) {
+      const targetRoomodesPath = path.join(targetDir, '.roomodes');
+      await copyFileWithDir(roomodesPath, targetRoomodesPath);
+    }
+    
+    // Copy .roo directory from the package directory if it exists
+    const rooDir = path.join(sourceDir, '.roo');
     if (fs.existsSync(rooDir)) {
       const targetRooDir = path.join(targetDir, '.roo');
       await copyDir(rooDir, targetRooDir);
     } else {
-      console.warn(`Warning: .roo directory not found in ${repoRootDir}`);
+      console.warn(`Warning: .roo directory not found in ${sourceDir}`);
     }
     
     console.log('Configuration files extracted successfully!');
