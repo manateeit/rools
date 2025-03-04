@@ -1,42 +1,41 @@
 <div align="center">
 
-# 🧠 Roo Code Memory Bank
+# rools
 
-**Persistent Project Context for AI-Assisted Development**
+**rools System for roo code custom prompts**
 
 [![VS Code Extension](https://img.shields.io/badge/VS%20Code-Extension-blue.svg)](https://github.com/RooVetGit/Roo-Code)
+[![npm package](https://img.shields.io/badge/npm-rools-brightgreen)](https://www.npmjs.com/package/rools)
 [![GitHub](https://img.shields.io/badge/View%20on-GitHub-lightgrey.svg)](https://github.com/GreatScottyMac/roo-code-memory-bank)
 
 </div>
 
 ## 🎯 Overview
 
-Roo Code Memory Bank solves a critical challenge in AI-assisted development: **maintaining context across sessions**. By providing a structured memory system integrated with VS Code, it ensures your AI assistant maintains a deep understanding of your project across sessions.
-
-### Key Components
+rools implements the **.roo file standard** for persistent AI context management. This structured memory system ensures consistent project understanding across development sessions with:
 
 ```mermaid
 graph LR
-    A[Memory Bank] --> B[Core Files]
+    A[.roo Files] --> B[Context Tracking]
     A --> C[Mode Rules]
-    A --> D[VS Code UI]
-    B --> E[Project Context]
+    A --> D[VS Code Integration]
+    B --> E[Project History]
     B --> F[Decisions]
-    B --> G[Progress]
+    B --> G[Implementation Plans]
     C --> H[Architect]
     C --> I[Code]
     C --> J[Ask]
     C --> K1[Debug]
-    K[Real-time Updates] --> B
-    K --> L[Continuous Sync]
-    L --> M[Auto-save]
-    L --> N[Event Tracking]
+    L[Auto-sync] --> A
+    L --> M[Version Control]
+    M --> N[Git Integration]
+
 ```
 
-- 🧠 **Memory Bank**: Persistent storage for project knowledge
-- 📋 **Mode Rules**: YAML-based behavior configuration
-- 🔧 **VS Code Integration**: Seamless development experience
-- ⚡ **Real-time Updates**: Continuous context synchronization
+- 🧩 **.roo File System**: Structured context storage format
+- 📦 **npm Package**: `rools` CLI and configuration manager
+- 🔄 **Auto-sync**: Seamless VS Code integration
+- 📚 **Decision Logging**: Version-controlled memory tracking
 
 ## 🚀 Quick Start
 
@@ -297,6 +296,8 @@ This script:
 
 </div>
 
+## Credits 
+Huge shoutout to [GreatScottyMac](LICENSE) for the initial seed
 ## License
 
-Apache 2.0 © 2025 [GreatScottyMac](LICENSE)
+Apache 2.0 © 2025 

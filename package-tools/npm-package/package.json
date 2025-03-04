@@ -1,7 +1,7 @@
 {
-  "name": "@automateeverything.cc/roo-code-memory-bank",
+  "name": "rools",
   "version": "1.0.0",
-  "description": "Configuration files for Cline that are extracted to consuming projects during installation",
+  "description": "Configuration files for Roo (CLine) that are extracted to consuming projects during installation",
   "main": "index.js",
   "bin": {
     "cline-rules-extract": "./bin/cline-rules-extract.js"

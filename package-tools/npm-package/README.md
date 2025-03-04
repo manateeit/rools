@@ -1,5 +1,5 @@
-# Roo Code Memory Bank
-
+# rools
+This package contains configuration files for Cline that are automatically extracted to the root of your project during installation.
 This package contains configuration files for Cline that are automatically extracted to the root of your project during installation.
 
 ## Contents
@@ -12,7 +12,7 @@ The package includes the following files:
 ## Installation
 
 ```bash
-npm install @automateeverything.cc/roo-code-memory-bank
+npm install rools
 ```
 
 During installation, the package will automatically extract all configuration files to the root of your project, overwriting any existing files with the same names.
@@ -36,7 +36,7 @@ npx cline-rules-extract /path/to/target/directory
 You can also use the package programmatically:
 
 ```javascript
-const clinerRules = require('@automateeverything.cc/roo-code-memory-bank');
+const clinerRules = require('rools');
 
 // Extract to current directory
 clinerRules.extractConfigFiles();

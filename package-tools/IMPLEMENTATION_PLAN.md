@@ -18,7 +18,8 @@ The `package.json` file needs to be updated to include the `.clinerules-*` files
   "README.md",
   ".clinerules-*",
   ".roo/**"
-]
+],
+"name": "rools"
 ```
 
 ### 2. Modify the Build Process

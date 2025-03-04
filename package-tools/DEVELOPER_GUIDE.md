@@ -1,5 +1,5 @@
-# Roo Code Memory Bank Package Developer Guide
-
+# rools Package Developer Guide
+This guide provides detailed instructions for developers working with the rools packages for both NPM and NuGet ecosystems.
 This guide provides detailed instructions for developers working with the Roo Code Memory Bank packages for both NPM and NuGet ecosystems.
 
 ## Table of Contents
@@ -25,7 +25,7 @@ This guide provides detailed instructions for developers working with the Roo Co
 
 ## NPM Package
 
-The NPM package (`@automateeverything.cc/roo-code-memory-bank`) contains configuration files that are automatically extracted from the repository root to the root of consuming projects during installation.
+The NPM package (`rools`) contains configuration files that are automatically extracted from the repository root to the root of consuming projects during installation.
 
 ### Publishing NPM
 
@@ -63,7 +63,7 @@ To use the NPM package in a project:
 
 1. Install the package:
    ```bash
-   npm install @automateeverything.cc/roo-code-memory-bank
+   npm install rools
    ```
 
 2. The configuration files will be automatically extracted from the repository root to the project root during installation.
@@ -80,7 +80,7 @@ To use the NPM package in a project:
 
 4. For programmatic use:
    ```javascript
-   const clinerRules = require('@automateeverything.cc/roo-code-memory-bank');
+   const clinerRules = require('rools');
    
    // Extract to current directory
    clinerRules.extractConfigFiles();
@@ -95,7 +95,7 @@ To update the package in a project:
 
 1. Update the package:
    ```bash
-   npm update @automateeverything.cc/roo-code-memory-bank
+   npm update rools
    ```
 
 2. The updated configuration files will be automatically extracted during the update.
@@ -116,7 +116,7 @@ To update the package in a project:
 
 ## NuGet Package
 
-The NuGet package (`RooCodeMemoryBank`) contains configuration files that are automatically extracted to the root of consuming projects during build.
+The NuGet package (`rools`) contains configuration files that are automatically extracted to the root of consuming projects during build.
 
 ### Publishing NuGet
 
@@ -144,7 +144,7 @@ To publish the NuGet package:
 
 5. Publish to NuGet:
    ```bash
-   dotnet nuget push bin/Release/RooCodeMemoryBank.1.0.0.nupkg -k YOUR_API_KEY -s https://api.nuget.org/v3/index.json
+   dotnet nuget push bin/Release/rools.1.0.0.nupkg -k YOUR_API_KEY -s https://api.nuget.org/v3/index.json
    ```
 
 ### Consuming NuGet

@@ -12,7 +12,7 @@ This package contains configuration files for Cline that are automatically extra
 Install the package via NuGet Package Manager:
 
 ```
-Install-Package RooCodeMemoryBank
+Install-Package rools
 ```
 
 Or using the .NET CLI:
