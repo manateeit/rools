@@ -1,5 +1,5 @@
 {
-  "name": "rools",
+  "name": "@automateeverything.cc/rools",
   "version": "1.0.0",
   "description": "Configuration files for Roo (CLine) that are extracted to consuming projects during installation",
   "main": "index.js",
