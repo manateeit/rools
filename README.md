@@ -14,33 +14,15 @@
 
 rools implements the **.roo file standard** for persistent AI context management. This structured memory system ensures consistent project understanding across development sessions with:
 
-```mermaid
-graph LR
-    A[.roo Files] --> B[Context Tracking]
-    A --> C[Mode Rules]
-    A --> D[VS Code Integration]
-    B --> E[Project History]
-    B --> F[Decisions]
-    B --> G[Implementation Plans]
-    C --> H[Architect]
-    C --> I[Code]
-    C --> J[Ask]
-    C --> K1[Debug]
-    L[Auto-sync] --> A
-    L --> M[Version Control]
-    M --> N[Git Integration]
-
-```
-
-- 🧩 **.roo File System**: Structured context storage format
-- 📦 **npm Package**: `rools` CLI and configuration manager
-- 🔄 **Auto-sync**: Seamless VS Code integration
-- 📚 **Decision Logging**: Version-controlled memory tracking
-
 ## 🚀 Quick Start
 
-### 1. Configure Custom Instructions
+### 1. Install rools Package
+```bash
+npm install rools
+```
+This command installs the `rools` package which automatically extracts configuration files to your project root. Existing files with matching names will be overwritten.
 
+### 2. Configure Custom Instructions
 #### a. Copy Rule and Mode Files
 Download and copy these files to your project's **root** directory:
 | Mode | Rule File | Purpose |
@@ -156,6 +138,19 @@ graph LR
 - Project-specific customization via rules
 
 ### 📊 Knowledge Management
+## 📦 Distribution & Installation
+
+Install the `rools` package via npm:
+```bash
+npm install rools
+```
+
+Update the package using:
+```bash
+npm update rools
+```
+
+The package automatically extracts configuration files to your project root during installation/updates. Existing files with matching names will be overwritten.
 - Structured documentation with clear purposes
 - Technical decision tracking with rationale
 - Automated progress monitoring
