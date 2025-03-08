@@ -12,7 +12,7 @@ The package includes the following files:
 ## Installation
 
 ```bash
-npm install rools
+npm install @automateeverything.cc/rools
 ```
 
 During installation, the package will automatically extract all configuration files to the root of your project, overwriting any existing files with the same names.
