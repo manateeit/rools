@@ -17,7 +17,7 @@ rools implements the **.roo file standard** for persistent AI context management
 
 ### 1. Install rools Package
 ```bash
-npm install rools
+npm install @automateeverything.cc/rools
 ```
 This command installs the `rools` package which automatically extracts configuration files to your project root. Existing files with matching names will be overwritten.
 
