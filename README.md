@@ -6,7 +6,6 @@
 
 [![VS Code Extension](https://img.shields.io/badge/VS%20Code-Extension-blue.svg)](https://github.com/RooVetGit/Roo-Code)
 [![npm package](https://img.shields.io/badge/npm-rools-brightgreen)](https://www.npmjs.com/package/rools)
-[![GitHub](https://img.shields.io/badge/View%20on-GitHub-lightgrey.svg)](https://github.com/GreatScottyMac/roo-code-memory-bank)
 
 </div>
 
@@ -23,40 +22,7 @@ npm install rools
 This command installs the `rools` package which automatically extracts configuration files to your project root. Existing files with matching names will be overwritten.
 
 ### 2. Configure Custom Instructions
-#### a. Copy Rule and Mode Files
-Download and copy these files to your project's **root** directory:
-| Mode | Rule File | Purpose |
-|------|-----------|----------|
-| Code | [`.clinerules-code`](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/.clinerules-code) | Implementation and coding tasks |
-| Architect | [`.clinerules-architect`](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/.clinerules-architect) | System design and architecture |
-| Ask | [`.clinerules-ask`](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/.clinerules-ask) | Information and assistance |
-| Debug | [`.clinerules-debug`](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/.clinerules-debug) | Troubleshooting and problem-solving |
-| Modes | [`.roomodes`](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/.roomodes) | Additional modes |
 
-#### b. Configure VS Code Settings
-> ⚠️ **Important**: Leave the "Custom Instructions" text boxes **empty** in VS Code settings (Roo Code Prompts section)
-
-<details>
-<summary>📷 View Settings Screenshot</summary>
-
-![Roo Code Settings](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/promt-settings-page.jpg)
-</details>
-
-### 2. Initialize Memory Bank
-
-1. Switch to **Architect** or **Code** mode in Roo Code chat
-2. Send a message (e.g., "hello")
-3. Roo will automatically:
-   - 🔍 Scan for `memory-bank/` directory
-   - 📁 Create it if missing (with your approval)
-   - 📝 Initialize core files
-   - 🚦 Provide next steps
-
-<details>
-<summary>💡 Pro Tip: Project Brief</summary>
-
-Create a `projectBrief.md` in your project root **before** initialization to give Roo immediate project context.
-</details>
 
 ### File Organization
 
@@ -74,70 +40,6 @@ project-root/
 │   └── decisionLog.md
 └── projectBrief.md
 ```
-
-## 📚 Memory Bank Structure
-
-```mermaid
-graph TD
-    MB[memory-bank/] --> AC[activeContext.md]
-    MB --> DL[decisionLog.md]
-    MB --> PC[productContext.md]
-    MB --> PR[progress.md]
-    MB --> PB[projectBrief.md]
-    MB --> SP[systemPatterns.md]
-    
-    subgraph Core Files
-        AC[Current Session State]
-        DL[Technical Decisions]
-        PC[Project Overview]
-        PR[Progress Tracking]
-    end
-    
-    subgraph Optional
-        PB[Project Brief]
-        SP[System Patterns]
-    end
-```
-
-<details>
-<summary>📖 View File Descriptions</summary>
-
-| File | Purpose |
-|------|----------|
-| `activeContext.md` | Tracks current goals, decisions, and session state |
-| `decisionLog.md` | Records architectural choices and their rationale |
-| `productContext.md` | Maintains high-level project context and knowledge |
-| `progress.md` | Documents completed work and upcoming tasks |
-| `projectBrief.md` | Contains initial project requirements (optional) |
-| `systemPatterns.md` | Documents recurring patterns and standards |
-
-</details>
-
-## ✨ Features
-
-### 🧠 Persistent Context
-- Remembers project details across sessions
-- Maintains consistent understanding of your codebase
-- Tracks decisions and their rationale
-
-### 🔄 Smart Workflows
-```mermaid
-graph LR
-    A[Architect Mode] -->|Real-time Design Updates| B[Memory Bank]
-    C[Code Mode] -->|Real-time Implementation| B
-    D[Ask Mode] -->|Real-time Insights| B
-    F[Debug Mode] -->|Real-time Analysis| B
-    B -->|Instant Context| A
-    B -->|Instant Context| C
-    B -->|Instant Context| D
-    B -->|Instant Context| F
-    E[Event Monitor] -->|Continuous Sync| B
-```
-- Mode-based operation for specialized tasks
-- Automatic context switching
-- Project-specific customization via rules
-
-### 📊 Knowledge Management
 ## 📦 Distribution & Installation
 
 Install the `rools` package via npm:
