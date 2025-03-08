@@ -44,12 +44,12 @@ project-root/
 
 Install the `rools` package via npm:
 ```bash
-npm install rools
+npm install @automateeverything.cc/rools
 ```
 
 Update the package using:
 ```bash
-npm update rools
+npm install @automateeverything.cc/rools
 ```
 
 The package automatically extracts configuration files to your project root during installation/updates. Existing files with matching names will be overwritten.
