@@ -40,9 +40,26 @@ async function promptSelection(sets) {
 
 async function cleanTargetDir() {
   const targetDir = process.cwd();
+
+  // Remove .roo directory
   await rm(path.join(targetDir, '.roo'), { recursive: true, force: true });
-  await rm(path.join(targetDir, '.clinerules*'), { recursive: true, force: true });
+
+  // Remove .roomodes file
   await rm(path.join(targetDir, '.roomodes'), { recursive: true, force: true });
+
+  // Remove all .clinerules* files/directories
+  const files = await readdir(targetDir);
+  for (const file of files) {
+    if (file.startsWith('.clinerules')) {
+      const filePath = path.join(targetDir, file);
+      const stats = await stat(filePath);
+      if (stats.isFile()) {
+        await rm(filePath, { force: true });
+      } else if (stats.isDirectory()) {
+        await rm(filePath, { recursive: true, force: true });
+      }
+    }
+  }
 }
 
 async function copySet(setName) {
