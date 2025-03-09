@@ -11,12 +11,7 @@
 
 ## 🎯 Overview
 
-rools implements the **.roo file standard** for persistent AI context management. This structured memory system ensures consistent project understanding across development sessions with:
-- **Configuration Management**: Easily switch between predefined configuration sets using the `select-rools-set` CLI tool
-- Technical decision tracking with rationale
-- Automated progress monitoring
-- Cross-referenced project knowledge
-
+rools implements the **.roo file standard** for managing roo code system-prompts, clinerules, and .roomodes files. **Configuration Management**: Easily switch between predefined configuration sets using the `select-rools-set` CLI tool.
 ## 🚀 Quick Start
 
 ### 1. Install rools Package
