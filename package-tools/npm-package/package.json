@@ -21,7 +21,11 @@
   ],
   "author": "",
   "license": "MIT",
-  "repository": "https://github.com/jtalborough/rools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtalborough/rools.git"
+  },
+  "bugs": {"url": "https://github.com/your-username/your-repo-name/issues"},
   "files": [
     "scripts/extract-config.js",
     "scripts/prepare-package.js",

@@ -81,6 +81,18 @@ scripts/
 └── select-rools-set.js
 ```
 
+#### Select Rools Set
+The `select-rools-set.js` script allows you to select and deploy configuration sets from the `.rools` directory:
+```bash
+node scripts/select-rools-set.js
+```
+
+This script:
+- Lists available configuration sets
+- Cleans the target directory
+- Copies the selected set's files to the project root
+- Handles both directories and files
+
 #### Populate System Variables
 The `populate-system-vars.js` script automatically populates system variables in all system prompt files:
 ```bash
@@ -102,18 +114,6 @@ This script:
 - Clears all system variable values in system-prompt files
 - Useful for preparing files for version control
 - Preserves the structure of the files
-
-#### Select Rools Set
-The `select-rools-set.js` script allows you to select and deploy configuration sets from the `.rools` directory:
-```bash
-node scripts/select-rools-set.js
-```
-
-This script:
-- Lists available configuration sets
-- Cleans the target directory
-- Copies the selected set's files to the project root
-- Handles both directories and files
 
 ---
 <div align="center">
