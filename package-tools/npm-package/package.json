@@ -4,7 +4,8 @@
   "description": "Configuration files for Roo (CLine) that are extracted to consuming projects during installation",
   "main": "index.js",
   "bin": {
-    "cline-rules-extract": "./bin/cline-rules-extract.js"
+    "cline-rules-extract": "./bin/cline-rules-extract.js",
+    "select-rools-set": "./scripts/select-rools-set.js"
   },
   "scripts": {
     "prepare": "node scripts/prepare-package.js",
@@ -20,11 +21,12 @@
   ],
   "author": "",
   "license": "MIT",
-  "repository": "https://github.com/jtalborough/rools.git",
+  "repository": "https://github.com/jtalborough/rools",
   "files": [
     "scripts/extract-config.js",
     "scripts/prepare-package.js",
     "scripts/populate-system-vars.js",
+    "scripts/select-rools-set.js",
     "bin/cline-rules-extract.js",
     "README.md",
     ".clinerules-*",
