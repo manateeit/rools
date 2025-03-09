@@ -25,7 +25,7 @@
     "type": "git",
     "url": "https://github.com/jtalborough/rools.git"
   },
-  "bugs": {"url": "https://github.com/your-username/your-repo-name/issues"},
+  "bugs": {"url": "https://github.com/jtalborough/rools.git"},
   "files": [
     "scripts/extract-config.js",
     "scripts/prepare-package.js",
