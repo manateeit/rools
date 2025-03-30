@@ -1,49 +1,66 @@
 <div align="center">
 
-# rools
+# Roo Code Memory Bank
 
-**rools System for roo code custom prompts**
+**Maintain Project Context Across Sessions and Memory Resets for Consistent AI-Assisted Development**
 
 [![VS Code Extension](https://img.shields.io/badge/VS%20Code-Extension-blue.svg)](https://github.com/RooVetGit/Roo-Code)
-[![npm package](https://img.shields.io/badge/npm-rools-brightgreen)](https://www.npmjs.com/package/@automateeverything.cc/rools)
+[![npm package](https://img.shields.io/badge/npm-roo--code--memory--bank-brightgreen)](https://github.com/GreatScottyMac/roo-code-memory-bank)
 
 </div>
 
 ## 🎯 Overview
 
-rools implements the **.roo file standard** for managing roo code system-prompts, clinerules, and .roomodes files. **Configuration Management**: Easily switch between predefined configuration sets using the `select-rools-set` CLI tool.
+The Roo Code Memory Bank is a system designed to maintain project context across sessions and memory resets for consistent AI-assisted development. It works alongside Roo Code's built-in context features to provide a more robust solution for managing project knowledge and ensuring consistent AI assistance.
+
+Key features:
+- **Persistence Across Memory Resets**: Ensures your project context survives Roo Code's internal memory resets
+- **Long-Term Project Knowledge**: Creates a structured repository for capturing architectural decisions and technical context
+- **Mode-Based Workflow**: Defines clear workflows for utilizing Roo Code's different modes (Architect, Code, Ask, Debug)
+- **Project-Specific Rules**: Implements project-specific rules and coding patterns with `.clinerules` files
 ## 🚀 Quick Start
 
-### 1. Install rools Package
+### 1. Installation
 ```bash
-npm install @automateeverything.cc/rools
-```
-This command installs the `rools` package which automatically extracts configuration files to your project root. Existing files with matching names will be overwritten.
-
-### 2. Deploy Configuration Set
-Use the `select-rools-set` script to deploy a configuration set:
-```bash
-node package-tools/npm-package/scripts/select-rools-set.js
-```
-This will prompt you to choose from available sets in the `.rools` directory and deploy the selected configuration.
-
-### 3. Configure Custom Instructions
-[Add custom instructions here]
-
-## 📦 Distribution & Installation
-Install the `rools` package via npm:
-```bash
-npm install @automateeverything.cc/rools
+npm install roo-code-memory-bank
 ```
 
-Update the package using:
+### 2. Populate System Variables
 ```bash
-npm install @automateeverything.cc/rools
+npm run populate
+```
+This script detects your current system environment and updates all system prompt files in the `.roo` directory.
+
+### 3. Select Configuration Set
+```bash
+npm run select
+```
+This script prompts you to choose from available sets in the `.rools` directory and deploys the selected configuration.
+
+### 4. Start Using with Roo Code
+Once you've installed and configured the Memory Bank, you can start using Roo Code with enhanced context persistence. The Memory Bank will ensure your project context survives across sessions and memory resets.
+
+## 📦 Programmatic Usage
+You can also use the Memory Bank programmatically in your Node.js scripts:
+
+```javascript
+const memoryBank = require('roo-code-memory-bank');
+
+// Populate system variables
+memoryBank.populateSystemVariables();
+
+// List available configuration sets
+const sets = memoryBank.listConfigurationSets();
+console.log('Available sets:', sets);
+
+// Select and deploy a configuration set
+memoryBank.selectConfigurationSet('set1');
+
+// Wipe system variables (for version control)
+memoryBank.wipeSystemVariables();
 ```
 
-The package automatically extracts configuration files to your project root during installation/updates. Existing files with matching names will be overwritten.
-
-## 🛠️ System Prompts and Utilities
+## 🛠️ Components and Files
 
 ### System Prompt Files
 The `.roo` directory contains system prompt files that define the behavior of Roo's different modes:
@@ -56,59 +73,44 @@ The `.roo` directory contains system prompt files that define the behavior of Ro
 └── system-prompt-debug
 ```
 
-These files contain system variables that are used by Roo to understand your environment:
+Each file contains sections for:
+- Introduction - What the AI assistant is and its capabilities
+- Guidelines - How the AI should behave and respond
+- Context - Information about the project and environment
+- System Variables - Environment-specific variables
 
-| Variable | Description |
-|----------|-------------|
-| `CURRENT_WORKING_DIRECTORY` | The current working directory of your project |
-| `HOME_DIRECTORY` | Your home directory path |
-| `GLOBAL_CUSTOM_MODES_PATH` | Path to global custom modes configuration |
-| `OPERATING_SYSTEM` | Your operating system |
-| `DEFAULT_SHELL` | Your default shell |
+### Configuration Files
 
-### Utility Scripts
+| File | Purpose |
+|------|---------|
+| `.clinerules-*` | Define project-specific rules and coding patterns |
+| `.roomodes` | Define custom modes for Roo Code |
+| `.rools/` | Directory containing configuration sets |
 
-The `scripts` directory contains utilities for managing system prompt files:
-```
-scripts/
-├── populate-system-vars.js
-├── wipe-system-vars.js
-└── select-rools-set.js
-```
+### NPM Scripts
 
-#### Select Rools Set
-The `select-rools-set.js` script allows you to select and deploy configuration sets from the `.rools` directory:
-```bash
-node scripts/select-rools-set.js
-```
+| Script | Description |
+|--------|-------------|
+| `npm run populate` | Populate system variables in system prompt files |
+| `npm run wipe` | Clear system variables (for version control) |
+| `npm run select` | Select and deploy a configuration set |
 
-This script:
-- Lists available configuration sets
-- Cleans the target directory
-- Copies the selected set's files to the project root
-- Handles both directories and files
+## 📚 Documentation
 
-#### Populate System Variables
-The `populate-system-vars.js` script automatically populates system variables in all system prompt files:
-```bash
-node scripts/populate-system-vars.js
-```
+For more detailed information, refer to the following documentation:
 
-This script:
-- Detects your current system environment
-- Updates all system-prompt files in the `.roo` directory
-- Provides a summary of updated files
+- [Architecture Document](architecture.md) - Technical overview of the system's components
+- [User Guide](user-guide.md) - Comprehensive instructions for using the system
+- [Quick Start Guide](quick-start.md) - Concise overview of essential features
 
-#### Wipe System Variables
-The `wipe-system-vars.js` script removes values from system variables in all system prompt files:
-```bash
-node scripts/wipe-system-vars.js
-```
+## 🔄 Integration with Roo Code
 
-This script:
-- Clears all system variable values in system-prompt files
-- Useful for preparing files for version control
-- Preserves the structure of the files
+The Memory Bank complements Roo Code's built-in context features:
+
+- **Roo Code's built-in features**: Provide short-term and workspace-level context retention
+- **Memory Bank**: Serves as Roo's long-term and structured persistent memory
+
+By using them together, you unlock a truly powerful and robust development workflow.
 
 ---
 <div align="center">
@@ -117,8 +119,9 @@ This script:
 
 </div>
 
-## Credits 
-Huge shoutout to [GreatScottyMac](LICENSE) for the initial seed
+## Credits
+Huge shoutout to [GreatScottyMac](https://github.com/GreatScottyMac) for the initial seed.
+
 ## License
 
 Apache 2.0 © 2025

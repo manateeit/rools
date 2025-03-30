@@ -1,0 +1,40 @@
+# Roo Code Memory Bank - Example .clinerules File
+
+# This file defines project-specific rules and coding patterns for Roo Code.
+# Rules defined here will be followed by Roo when generating or modifying code.
+
+# Coding Style Rules
+RULE: Use camelCase for variable and function names
+RULE: Use PascalCase for class names and React components
+RULE: Use 2-space indentation
+RULE: Maximum line length is 80 characters
+RULE: Use semicolons at the end of statements
+RULE: Use single quotes for string literals
+
+# Architecture Rules
+RULE: Follow the Model-View-Controller (MVC) pattern
+RULE: Keep components small and focused on a single responsibility
+RULE: Use dependency injection for service dependencies
+RULE: Implement proper error handling in all functions
+RULE: Write unit tests for all business logic
+
+# Project-Specific Rules
+RULE: All API endpoints must be documented with JSDoc comments
+RULE: Database queries should use parameterized statements
+RULE: Log all errors with appropriate severity levels
+RULE: Include input validation for all user-provided data
+RULE: Follow the established project directory structure
+
+# Performance Rules
+RULE: Minimize DOM manipulations
+RULE: Use memoization for expensive calculations
+RULE: Implement pagination for large data sets
+RULE: Optimize images and assets for web delivery
+RULE: Use lazy loading for non-critical resources
+
+# Security Rules
+RULE: Sanitize all user inputs to prevent XSS attacks
+RULE: Use HTTPS for all external communications
+RULE: Implement proper authentication and authorization
+RULE: Do not store sensitive information in client-side code
+RULE: Follow OWASP security best practices

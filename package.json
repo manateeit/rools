@@ -5,10 +5,33 @@
   "main": "index.js",
   "scripts": {
     "populate": "node scripts/populate-system-vars.js",
-    "wipe": "node scripts/wipe-system-vars.js"
+    "wipe": "node scripts/wipe-system-vars.js",
+    "select": "node scripts/select-rools-set.js"
+  },
+  "bin": {
+    "roo-populate": "./scripts/populate-system-vars.js",
+    "roo-wipe": "./scripts/wipe-system-vars.js",
+    "roo-select": "./scripts/select-rools-set.js"
   },
   "dependencies": {
     "rools": "^2.3.0"
+  },
+  "keywords": [
+    "roo",
+    "roo-code",
+    "memory-bank",
+    "ai-assisted",
+    "development",
+    "context"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GreatScottyMac/roo-code-memory-bank.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GreatScottyMac/roo-code-memory-bank/issues"
   },
   "engines": {
     "node": ">=10.x.x"
