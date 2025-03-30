@@ -1,5 +1,16 @@
 {
+  "name": "roo-code-memory-bank",
+  "version": "1.0.0",
+  "description": "Maintain Project Context Across Sessions and Memory Resets for Consistent AI-Assisted Development",
+  "main": "index.js",
+  "scripts": {
+    "populate": "node scripts/populate-system-vars.js",
+    "wipe": "node scripts/wipe-system-vars.js"
+  },
   "dependencies": {
     "rools": "^2.3.0"
+  },
+  "engines": {
+    "node": ">=10.x.x"
   }
 }
