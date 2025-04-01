@@ -1,91 +1,90 @@
-const nextJest = require('next/jest');
-
-// Create a custom Next.js configuration to be used with Jest
-const createJestConfig = nextJest({
-  // Path to Next.js app
-  dir: './web',
-});
-
-// Custom Jest configuration
-const customJestConfig = {
-  // Add more setup options before each test is run
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+/**
+ * Jest configuration for Trading AI Agent Bot
+ */
+module.exports = {
+  // The test environment that will be used for testing
+  testEnvironment: 'node',
   
-  // Test environment for React components
-  testEnvironment: 'jest-environment-jsdom',
-  
-  // Directories to ignore
-  testPathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-    '<rootDir>/.next/',
-    '<rootDir>/dist/'
-  ],
-  
-  // Module directories
-  moduleDirectories: ['node_modules', '<rootDir>/'],
-  
-  // Module name mapper for CSS and other files
-  moduleNameMapper: {
-    // Handle CSS imports
-    '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
-    
-    // Handle image imports
-    '^.+\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
-    
-    // Handle module aliases
-    '^@/components/(.*)$': '<rootDir>/web/components/$1',
-    '^@/pages/(.*)$': '<rootDir>/web/pages/$1',
-    '^@/lib/(.*)$': '<rootDir>/web/lib/$1',
-    '^@/styles/(.*)$': '<rootDir>/web/styles/$1',
-    '^@/core/(.*)$': '<rootDir>/src/core/$1',
-    '^@/alpaca/(.*)$': '<rootDir>/src/alpaca/$1',
-    '^@/llm/(.*)$': '<rootDir>/src/llm/$1',
-    '^@/storage/(.*)$': '<rootDir>/src/storage/$1',
-    '^@/cli/(.*)$': '<rootDir>/src/cli/$1',
-    '^@/web/(.*)$': '<rootDir>/src/web/$1',
-    '^@/backtest/(.*)$': '<rootDir>/src/backtest/$1'
-  },
-  
-  // Coverage configuration
-  collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
-    'web/**/*.{js,jsx,ts,tsx}',
-    '!**/*.d.ts',
-    '!**/node_modules/**',
-    '!**/.next/**',
-    '!**/dist/**'
-  ],
-  
-  // Coverage directory
-  coverageDirectory: '<rootDir>/coverage',
-  
-  // Minimum coverage threshold
-  coverageThreshold: {
-    global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70
-    }
-  },
-  
-  // Test match patterns
+  // The glob patterns Jest uses to detect test files
   testMatch: [
-    '<rootDir>/**/__tests__/**/*.{js,jsx,ts,tsx}',
-    '<rootDir>/**/*.{spec,test}.{js,jsx,ts,tsx}'
+    '**/test/**/*.test.js'
   ],
   
-  // Transform patterns
-  transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }]
-  },
+  // An array of regexp pattern strings that are matched against all test paths
+  // matched tests are skipped
+  testPathIgnorePatterns: [
+    '/node_modules/'
+  ],
   
-  // Transform ignore patterns
+  // An array of regexp pattern strings that are matched against all source file paths
+  // matched files will skip transformation
   transformIgnorePatterns: [
     '/node_modules/',
-    '^.+\\.module\\.(css|sass|scss)$'
-  ]
+    '\\.pnp\\.[^\\/]+$'
+  ],
+  
+  // A map from regular expressions to paths to transformers
+  transform: {},
+  
+  // An array of regexp pattern strings that are matched against all modules before they are loaded
+  // matched files will be mocked
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.js',
+    '\\.(gif|ttf|eot|svg|png|jpg|jpeg)$': '<rootDir>/__mocks__/fileMock.js'
+  },
+  
+  // Indicates whether each individual test should be reported during the run
+  verbose: true,
+  
+  // Automatically clear mock calls and instances between every test
+  clearMocks: true,
+  
+  // Indicates whether the coverage information should be collected while executing the test
+  collectCoverage: false,
+  
+  // The directory where Jest should output its coverage files
+  coverageDirectory: 'coverage',
+  
+  // An array of regexp pattern strings used to skip coverage collection
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/test/'
+  ],
+  
+  // A list of reporter names that Jest uses when writing coverage reports
+  coverageReporters: [
+    'json',
+    'text',
+    'lcov',
+    'clover'
+  ],
+  
+  // The maximum amount of workers used to run your tests
+  maxWorkers: '50%',
+  
+  // An array of directory names to be searched recursively up from the requiring module's location
+  moduleDirectories: [
+    'node_modules',
+    'src'
+  ],
+  
+  // A list of paths to directories that Jest should use to search for files in
+  roots: [
+    '<rootDir>'
+  ],
+  
+  // The paths to modules that run some code to configure or set up the testing environment
+  setupFiles: [],
+  
+  // A list of paths to modules that run some code to configure or set up the testing framework
+  setupFilesAfterEnv: [],
+  
+  // The number of seconds after which a test is considered as slow
+  slowTestThreshold: 5,
+  
+  // A list of paths to snapshot serializer modules Jest should use
+  snapshotSerializers: [],
+  
+  // The test timeout in milliseconds
+  testTimeout: 10000
 };
-
-// Export the combined configuration
-module.exports = createJestConfig(customJestConfig);

@@ -1,2 +1,2 @@
-// Mock for CSS modules
+// Mock file for CSS/SCSS/LESS imports
 module.exports = {};
