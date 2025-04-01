@@ -12,8 +12,12 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage",
-    "test:unit": "jest --testPathPattern=__tests__/.*\\.test\\.js$",
-    "test:integration": "jest --testPathPattern=__tests__/.*\\.integration\\.test\\.js$",
+    "test:unit": "jest --testPathPattern=test/unit",
+    "test:integration": "jest --testPathPattern=test/integration",
+    "test:api": "jest --testPathPattern=test/api",
+    "test:ui": "jest --testPathPattern=test/ui",
+    "test:e2e": "jest --testPathPattern=test/e2e",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:api && npm run test:ui && npm run test:e2e",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -66,6 +70,8 @@
     "jest-environment-jsdom": "^29.5.0",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
+    "puppeteer": "^21.0.0",
+    "supertest": "^6.3.3",
     "supabase": "^1.42.7"
   },
   "engines": {
