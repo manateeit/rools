@@ -6,6 +6,7 @@
 - Creating the foundation for the trading engine, API integrations, and interfaces
 - Implementing the web interface components
 - Implementing API routes for the web interface
+- Setting up authentication with Supabase
 
 ## Current Tasks
 - [x] Gather key requirements
@@ -71,7 +72,11 @@
     - [x] Run backtest
     - [x] List backtests
     - [x] Get/delete backtest
-- [ ] Set up authentication with Supabase
+- [x] Set up authentication with Supabase
+  - [x] Create Supabase client
+  - [x] Implement authentication context
+  - [x] Add authentication to _app.js
+  - [x] Create middleware for server-side authentication
 
 ## Implementation Progress
 - Created project structure with core components
@@ -105,12 +110,17 @@
   - Trades route for listing executed trades
   - Strategy route for executing trading strategies with different algorithms
 - Implemented API routes for backtesting:
-  - Run backtest route for executing backtests
-  - List backtests route for retrieving backtest history
+  - Run backtest route for executing backtests with different strategies
+  - List backtests route for retrieving backtest history with filtering and sorting
   - Get/delete backtest route for managing individual backtests
+- Set up authentication with Supabase:
+  - Created Supabase client for authentication
+  - Implemented authentication context provider with hooks for sign in, sign up, sign out, etc.
+  - Added authentication to _app.js with route protection
+  - Created middleware for server-side authentication
+  - Updated environment variables for Supabase integration
 
 ## Next Steps
-- Set up authentication with Supabase
 - Create deployment configuration for Vercel
 - Set up CI/CD pipeline
 - Implement comprehensive error handling

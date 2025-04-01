@@ -1,87 +1,50 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { supabase } from './supabase';
 
 // Create auth context
 const AuthContext = createContext();
 
 // Auth provider component
-export function AuthProvider({ children, supabase }) {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   
-  // Initialize auth state
+  // Listen for auth state changes
   useEffect(() => {
-    if (!supabase) {
-      setLoading(false);
-      return;
-    }
-    
-    // Check for active session
-    const checkSession = async () => {
+    // Get initial session
+    const getInitialSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         
-        if (session) {
-          const { data: { user: userData } } = await supabase.auth.getUser();
-          setUser(userData);
-        }
+        setUser(session?.user || null);
+        setLoading(false);
       } catch (error) {
-        console.error('Error checking session:', error);
-      } finally {
+        console.error('Error getting initial session:', error);
         setLoading(false);
       }
     };
     
-    checkSession();
+    getInitialSession();
     
-    // Listen for auth changes
+    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session) {
-          const { data: { user: userData } } = await supabase.auth.getUser();
-          setUser(userData);
-        } else {
-          setUser(null);
-        }
-        
-        // Handle auth events
-        switch (event) {
-          case 'SIGNED_IN':
-            // Redirect to dashboard after sign in
-            if (router.pathname === '/login') {
-              router.push('/');
-            }
-            break;
-            
-          case 'SIGNED_OUT':
-            // Redirect to login after sign out
-            router.push('/login');
-            break;
-            
-          default:
-            break;
-        }
+      (_event, session) => {
+        setUser(session?.user || null);
+        setLoading(false);
       }
     );
     
-    // Cleanup subscription
+    // Clean up subscription
     return () => {
-      if (subscription) {
-        subscription.unsubscribe();
-      }
+      subscription?.unsubscribe();
     };
-  }, [supabase, router]);
+  }, []);
   
   // Sign in with email and password
   const signIn = async (email, password) => {
     try {
-      setLoading(true);
-      
-      if (!supabase) {
-        throw new Error('Supabase client not initialized');
-      }
-      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -91,73 +54,55 @@ export function AuthProvider({ children, supabase }) {
         throw error;
       }
       
-      return data;
+      return { success: true, data };
     } catch (error) {
       console.error('Error signing in:', error);
-      throw error;
-    } finally {
-      setLoading(false);
+      return { success: false, error };
     }
   };
   
   // Sign up with email and password
-  const signUp = async (email, password) => {
+  const signUp = async (email, password, metadata = {}) => {
     try {
-      setLoading(true);
-      
-      if (!supabase) {
-        throw new Error('Supabase client not initialized');
-      }
-      
       const { data, error } = await supabase.auth.signUp({
         email,
-        password
+        password,
+        options: {
+          data: metadata
+        }
       });
       
       if (error) {
         throw error;
       }
       
-      return data;
+      return { success: true, data };
     } catch (error) {
       console.error('Error signing up:', error);
-      throw error;
-    } finally {
-      setLoading(false);
+      return { success: false, error };
     }
   };
   
   // Sign out
   const signOut = async () => {
     try {
-      setLoading(true);
-      
-      if (!supabase) {
-        throw new Error('Supabase client not initialized');
-      }
-      
       const { error } = await supabase.auth.signOut();
       
       if (error) {
         throw error;
       }
+      
+      router.push('/login');
+      return { success: true };
     } catch (error) {
       console.error('Error signing out:', error);
-      throw error;
-    } finally {
-      setLoading(false);
+      return { success: false, error };
     }
   };
   
   // Reset password
   const resetPassword = async (email) => {
     try {
-      setLoading(true);
-      
-      if (!supabase) {
-        throw new Error('Supabase client not initialized');
-      }
-      
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/reset-password`
       });
@@ -165,35 +110,79 @@ export function AuthProvider({ children, supabase }) {
       if (error) {
         throw error;
       }
+      
+      return { success: true };
     } catch (error) {
       console.error('Error resetting password:', error);
-      throw error;
-    } finally {
-      setLoading(false);
+      return { success: false, error };
     }
   };
   
-  // Update password
-  const updatePassword = async (password) => {
+  // Update user
+  const updateUser = async (updates) => {
     try {
-      setLoading(true);
-      
-      if (!supabase) {
-        throw new Error('Supabase client not initialized');
-      }
-      
-      const { error } = await supabase.auth.updateUser({
-        password
-      });
+      const { data, error } = await supabase.auth.updateUser(updates);
       
       if (error) {
         throw error;
       }
+      
+      return { success: true, data };
     } catch (error) {
-      console.error('Error updating password:', error);
-      throw error;
-    } finally {
-      setLoading(false);
+      console.error('Error updating user:', error);
+      return { success: false, error };
+    }
+  };
+  
+  // Get user profile
+  const getUserProfile = async () => {
+    try {
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      return { success: true, data };
+    } catch (error) {
+      console.error('Error getting user profile:', error);
+      return { success: false, error };
+    }
+  };
+  
+  // Update user profile
+  const updateUserProfile = async (updates) => {
+    try {
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          ...updates,
+          updated_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      return { success: true, data };
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+      return { success: false, error };
     }
   };
   
@@ -205,7 +194,9 @@ export function AuthProvider({ children, supabase }) {
     signUp,
     signOut,
     resetPassword,
-    updatePassword,
+    updateUser,
+    getUserProfile,
+    updateUserProfile,
     supabase
   };
   
@@ -216,7 +207,7 @@ export function AuthProvider({ children, supabase }) {
   );
 }
 
-// Custom hook to use auth context
+// Auth hook
 export function useAuth() {
   const context = useContext(AuthContext);
   
