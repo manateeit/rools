@@ -38,9 +38,15 @@
     - [x] StrategySelector
     - [x] MarketData
     - [x] OrderStatus
-  - [x] Backtesting page
-- [ ] Implement backtesting components
-- [ ] Implement settings page
+  - [x] Backtesting page and components
+    - [x] BacktestForm
+    - [x] BacktestResults
+    - [x] BacktestHistory
+  - [x] Settings page and components
+    - [x] UserSettings
+    - [x] ApiKeySettings
+    - [x] NotificationSettings
+    - [x] ModelSettings
 - [ ] Set up authentication with Supabase
 - [ ] Implement API routes for the web interface
 
@@ -59,11 +65,10 @@
   - Dashboard page with performance visualization and market overview
   - Login page with authentication
   - Trading page with asset selection, order form, strategy selection, market data, and order status
-  - Backtesting page structure
+  - Backtesting page with form, results visualization, and history
+  - Settings page with user, API key, notification, and model settings
 
 ## Next Steps
-- Implement backtesting components
-- Implement settings page
 - Set up authentication with Supabase
 - Implement API routes for the web interface
 - Create deployment configuration for Vercel
