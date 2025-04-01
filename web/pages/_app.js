@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { AuthProvider, useAuth } from '../lib/auth';
 import Layout from '../components/layout/Layout';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 // Import global styles
 import '../styles/globals.css';
@@ -12,9 +13,11 @@ const publicRoutes = ['/login', '/signup', '/reset-password', '/forgot-password'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <AppContent Component={Component} pageProps={pageProps} />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <AppContent Component={Component} pageProps={pageProps} />
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
@@ -77,6 +80,13 @@ function AppContent({ Component, pageProps }) {
     );
   }
   
+  // Get error context for error boundary
+  const errorContext = {
+    path: router.pathname,
+    userId: user?.id,
+    isAuthenticated: !!user
+  };
+  
   // Render page with or without layout based on route
   const isPublicRoute = publicRoutes.includes(router.pathname);
   
@@ -88,7 +98,9 @@ function AppContent({ Component, pageProps }) {
           <meta name="description" content="AI-powered trading bot with LLM capabilities" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Component {...pageProps} />
+        <ErrorBoundary errorContext={errorContext}>
+          <Component {...pageProps} />
+        </ErrorBoundary>
       </>
     );
   }
@@ -100,9 +112,11 @@ function AppContent({ Component, pageProps }) {
         <meta name="description" content="AI-powered trading bot with LLM capabilities" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ErrorBoundary errorContext={errorContext}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ErrorBoundary>
     </>
   );
 }
