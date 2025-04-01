@@ -1,212 +1,191 @@
 import { useState } from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '../lib/auth';
 
+/**
+ * Login page component
+ * 
+ * @returns {JSX.Element} - Login page component
+ */
 export default function Login() {
-  const router = useRouter();
-  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { signIn } = useAuth();
+  const router = useRouter();
   
-  // Handle form submission
+  /**
+   * Handle form submission
+   * 
+   * @param {Event} e - Form submit event
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
+    }
+    
     try {
+      setError('');
       setLoading(true);
-      setError(null);
       
-      await signIn(email, password);
+      const { success, error } = await signIn(email, password);
+      
+      if (!success) {
+        throw new Error(error.message || 'Failed to sign in');
+      }
       
       // Redirect to dashboard
-      router.push('/');
+      router.push('/dashboard');
     } catch (err) {
-      console.error('Login error:', err);
-      setError('Invalid email or password. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  // Handle demo login
-  const handleDemoLogin = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // In a real app, you would use actual demo credentials
-      // For now, we'll just simulate a successful login
-      setTimeout(() => {
-        // Redirect to dashboard
-        router.push('/');
-      }, 1000);
-    } catch (err) {
-      console.error('Demo login error:', err);
-      setError('Failed to log in with demo account. Please try again.');
+      setError(err.message || 'Failed to sign in');
     } finally {
       setLoading(false);
     }
   };
   
   return (
-    <div className="login-page">
-      <Head>
-        <title>Login | Trading AI Agent Bot</title>
-        <meta name="description" content="Log in to your Trading AI Agent Bot account" />
-      </Head>
-      
-      <div className="login-container">
-        <div className="login-card">
-          <div className="login-header">
-            <h1>Trading AI Agent Bot</h1>
-            <p>Log in to your account</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Trading AI Agent Bot
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Sign in to your account
+          </p>
+        </div>
+        
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email-address" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
           </div>
           
           {error && (
-            <div className="alert alert-danger">
+            <div className="text-red-600 text-sm">
               {error}
             </div>
           )}
           
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">Email</label>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
               <input
-                type="email"
-                id="email"
-                className="form-control"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={loading}
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
               />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                Remember me
+              </label>
             </div>
             
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">Password</label>
-              <input
-                type="password"
-                id="password"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading}
-              />
+            <div className="text-sm">
+              <Link href="/forgot-password">
+                <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                  Forgot your password?
+                </a>
+              </Link>
             </div>
-            
-            <div className="form-group">
-              <button
-                type="submit"
-                className="btn btn-primary w-100"
-                disabled={loading}
-              >
-                {loading ? 'Logging in...' : 'Log In'}
-              </button>
-            </div>
-          </form>
-          
-          <div className="login-divider">
-            <span>or</span>
           </div>
           
-          <button
-            className="btn btn-secondary w-100"
-            onClick={handleDemoLogin}
-            disabled={loading}
-          >
-            Try Demo Account
-          </button>
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {loading ? (
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <svg
+                    className="animate-spin h-5 w-5 text-indigo-300"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </span>
+              ) : (
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <svg
+                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              )}
+              {loading ? 'Signing in...' : 'Sign in'}
+            </button>
+          </div>
           
-          <div className="login-footer">
-            <p>
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
               Don't have an account?{' '}
               <Link href="/signup">
-                <a>Sign up</a>
-              </Link>
-            </p>
-            <p>
-              <Link href="/forgot-password">
-                <a>Forgot password?</a>
+                <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                  Sign up
+                </a>
               </Link>
             </p>
           </div>
-        </div>
+        </form>
       </div>
-      
-      <style jsx>{`
-        .login-page {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--background-color);
-        }
-        
-        .login-container {
-          width: 100%;
-          max-width: 400px;
-          padding: 1rem;
-        }
-        
-        .login-card {
-          background-color: white;
-          border-radius: var(--border-radius);
-          box-shadow: var(--box-shadow);
-          padding: 2rem;
-        }
-        
-        .login-header {
-          text-align: center;
-          margin-bottom: 2rem;
-        }
-        
-        .login-header h1 {
-          font-size: 1.75rem;
-          margin-bottom: 0.5rem;
-        }
-        
-        .login-header p {
-          color: var(--secondary-color);
-        }
-        
-        .form-group {
-          margin-bottom: 1.5rem;
-        }
-        
-        .login-divider {
-          display: flex;
-          align-items: center;
-          margin: 1.5rem 0;
-          color: var(--secondary-color);
-        }
-        
-        .login-divider::before,
-        .login-divider::after {
-          content: '';
-          flex: 1;
-          height: 1px;
-          background-color: var(--border-color);
-        }
-        
-        .login-divider span {
-          padding: 0 1rem;
-        }
-        
-        .login-footer {
-          margin-top: 1.5rem;
-          text-align: center;
-          font-size: 0.875rem;
-        }
-        
-        .login-footer p {
-          margin-bottom: 0.5rem;
-        }
-      `}</style>
     </div>
   );
 }

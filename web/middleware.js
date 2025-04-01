@@ -1,4 +1,4 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 
 // Public routes that don't require authentication
@@ -11,9 +11,23 @@ const publicRoutes = ['/login', '/signup', '/reset-password', '/forgot-password'
  * @returns {Object} - The response object
  */
 export async function middleware(req) {
-  // Create supabase middleware client
+  // Create supabase server client
   const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: {
+        get: (name) => req.cookies.get(name)?.value,
+        set: (name, value, options) => {
+          res.cookies.set(name, value, options);
+        },
+        remove: (name, options) => {
+          res.cookies.set(name, '', { ...options, maxAge: 0 });
+        },
+      },
+    }
+  );
   
   // Get session
   const {

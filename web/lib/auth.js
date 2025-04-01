@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { supabase } from './supabase';
+import { createBrowserClient } from '@supabase/ssr';
 
 // Create auth context
 const AuthContext = createContext();
@@ -10,6 +10,12 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  
+  // Create Supabase client
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
   
   // Listen for auth state changes
   useEffect(() => {
