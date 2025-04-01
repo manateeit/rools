@@ -16,6 +16,8 @@
 | 2025-03-31 | Use Event Emitter pattern for component communication | Direct method calls, Callback functions, Message queue | Enable loose coupling between components with event-driven architecture | Improves modularity and testability while allowing for future extensions | Implemented |
 | 2025-03-31 | Implement comprehensive error handling in API clients | Basic error handling, No error handling | Ensure robust operation in face of API failures and rate limits | Increases code complexity but improves reliability and user experience | Implemented |
 | 2025-03-31 | Use PostgreSQL JSON capabilities for flexible data storage | Rigid schema, NoSQL database | Store complex nested data while maintaining relational integrity | Balances flexibility and structure while leveraging Supabase capabilities | Implemented |
+| 2025-03-31 | Use Next.js for web interface | React SPA, Vue.js, Angular | Leverage server-side rendering and API routes in a unified framework | Simplifies development and deployment while providing optimal performance and SEO benefits | Implemented |
+| 2025-03-31 | Implement responsive design for web interface | Desktop-only, Mobile-only, Separate interfaces | Ensure usability across different device sizes | Increases design complexity but provides better user experience on all devices | Implemented |
 
 ## Design Decisions
 
@@ -25,6 +27,9 @@
 | 2025-03-31 | Use Express with Next.js for web server | Next.js API routes only, Separate backend | Combine flexibility of Express with Next.js frontend capabilities | Allows for more customization of API endpoints while maintaining Next.js benefits | Implemented |
 | 2025-03-31 | Implement encryption for API keys | Plain text storage, Third-party key management | Protect sensitive credentials from unauthorized access | Adds implementation complexity but significantly improves security | Implemented |
 | 2025-03-31 | Use Row-Level Security in Supabase | Application-level security, Custom authorization | Enforce data access controls at the database level | Provides robust security guarantees independent of application code | Implemented |
+| 2025-03-31 | Use CSS-in-JS with styled-jsx | CSS modules, Tailwind CSS, Styled components | Leverage Next.js built-in styling solution | Simplifies component styling with scoped CSS while avoiding additional dependencies | Implemented |
+| 2025-03-31 | Implement custom authentication context | Auth libraries, Supabase Auth UI | Provide flexible authentication with custom UI | Increases implementation complexity but offers better integration with application flow | Implemented |
+| 2025-03-31 | Use canvas for performance charts | Chart.js, D3.js, Recharts | Maximize performance and customization | Requires more implementation effort but provides better control over visualization | Implemented |
 
 ## Technical Debt
 
@@ -34,6 +39,8 @@
 | 2025-03-31 | Comprehensive testing | Core components implemented without unit and integration tests | High | Add testing framework and tests in next phase |
 | 2025-03-31 | Error handling standardization | Error handling implemented but not fully standardized across components | Medium | Create error handling utilities and standardize approach |
 | 2025-03-31 | Documentation | Code documentation is minimal and needs improvement | Medium | Add comprehensive JSDoc comments and generate API documentation |
+| 2025-03-31 | Mock implementations | Web interface uses mock data instead of real API integration | Medium | Replace mock implementations with real API calls |
+| 2025-03-31 | API route implementation | Web server defined but API routes not fully implemented | High | Implement all required API routes for web interface |
 
 ## Future Considerations
 - Selection of specific LLM models and integration approach
@@ -46,3 +53,5 @@
 - Integration with additional data sources beyond Alpaca
 - Advanced portfolio optimization strategies
 - Machine learning for parameter optimization
+- Real-time notifications for trading events
+- Social sharing of trading strategies
