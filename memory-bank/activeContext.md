@@ -67,7 +67,10 @@
     - [x] Orders
     - [x] Trades
     - [x] Strategy
-  - [ ] Backtesting routes
+  - [x] Backtesting routes
+    - [x] Run backtest
+    - [x] List backtests
+    - [x] Get/delete backtest
 - [ ] Set up authentication with Supabase
 
 ## Implementation Progress
@@ -100,10 +103,13 @@
   - Positions route for managing positions
   - Orders routes for creating and managing orders
   - Trades route for listing executed trades
-  - Strategy route for executing trading strategies
+  - Strategy route for executing trading strategies with different algorithms
+- Implemented API routes for backtesting:
+  - Run backtest route for executing backtests
+  - List backtests route for retrieving backtest history
+  - Get/delete backtest route for managing individual backtests
 
 ## Next Steps
-- Implement backtesting API routes
 - Set up authentication with Supabase
 - Create deployment configuration for Vercel
 - Set up CI/CD pipeline

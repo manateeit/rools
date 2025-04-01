@@ -49,7 +49,7 @@
     - [x] ApiKeySettings
     - [x] NotificationSettings
     - [x] ModelSettings
-- [x] API routes implementation (partial)
+- [x] API routes implementation
   - [x] Authentication routes
     - [x] Login
     - [x] Signup
@@ -68,10 +68,12 @@
     - [x] Orders
     - [x] Trades
     - [x] Strategy
+  - [x] Backtesting routes
+    - [x] Run backtest
+    - [x] List backtests
+    - [x] Get/delete backtest
 
 ## In Progress
-- [ ] API routes implementation (remaining)
-  - [ ] Backtesting routes
 - [ ] Authentication integration
 - [ ] Deployment configuration
 
@@ -111,4 +113,8 @@
   - Orders routes for creating and managing orders
   - Trades route for listing executed trades
   - Strategy route for executing trading strategies with different algorithms
-- Next steps will focus on implementing the backtesting API routes, authentication integration, and deployment configuration
+- API routes for backtesting have been implemented:
+  - Run backtest route for executing backtests with different strategies
+  - List backtests route for retrieving backtest history with filtering and sorting
+  - Get/delete backtest route for managing individual backtests
+- Next steps will focus on authentication integration and deployment configuration
