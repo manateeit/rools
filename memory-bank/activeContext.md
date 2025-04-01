@@ -59,7 +59,14 @@
     - [x] API keys
     - [x] Notifications
     - [x] Model settings
-  - [ ] Trading routes
+  - [x] Trading routes
+    - [x] Assets
+    - [x] Market data
+    - [x] Account
+    - [x] Positions
+    - [x] Orders
+    - [x] Trades
+    - [x] Strategy
   - [ ] Backtesting routes
 - [ ] Set up authentication with Supabase
 
@@ -86,9 +93,16 @@
   - API key management
   - Notification settings
   - LLM model settings
+- Implemented API routes for trading:
+  - Assets route for listing available assets
+  - Market data route for getting price data
+  - Account route for getting account information
+  - Positions route for managing positions
+  - Orders routes for creating and managing orders
+  - Trades route for listing executed trades
+  - Strategy route for executing trading strategies
 
 ## Next Steps
-- Implement trading API routes
 - Implement backtesting API routes
 - Set up authentication with Supabase
 - Create deployment configuration for Vercel

@@ -60,10 +60,17 @@
     - [x] API keys
     - [x] Notifications
     - [x] Model settings
+  - [x] Trading routes
+    - [x] Assets
+    - [x] Market data
+    - [x] Account
+    - [x] Positions
+    - [x] Orders
+    - [x] Trades
+    - [x] Strategy
 
 ## In Progress
 - [ ] API routes implementation (remaining)
-  - [ ] Trading routes
   - [ ] Backtesting routes
 - [ ] Authentication integration
 - [ ] Deployment configuration
@@ -96,4 +103,12 @@
   - API key management with encryption
   - Notification settings configuration
   - LLM model settings configuration
-- Next steps will focus on implementing the trading and backtesting API routes, authentication integration, and deployment configuration
+- API routes for trading have been implemented:
+  - Assets route for listing available assets
+  - Market data route for getting price data
+  - Account route for getting account information
+  - Positions route for managing positions
+  - Orders routes for creating and managing orders
+  - Trades route for listing executed trades
+  - Strategy route for executing trading strategies with different algorithms
+- Next steps will focus on implementing the backtesting API routes, authentication integration, and deployment configuration
