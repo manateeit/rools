@@ -5,6 +5,7 @@
 - Setting up the project structure and dependencies
 - Creating the foundation for the trading engine, API integrations, and interfaces
 - Implementing the web interface components
+- Implementing API routes for the web interface
 
 ## Current Tasks
 - [x] Gather key requirements
@@ -47,8 +48,20 @@
     - [x] ApiKeySettings
     - [x] NotificationSettings
     - [x] ModelSettings
+- [x] Implement API routes for the web interface
+  - [x] Authentication routes
+    - [x] Login
+    - [x] Signup
+    - [x] Logout
+  - [x] User routes
+    - [x] Profile
+    - [x] Preferences
+    - [x] API keys
+    - [x] Notifications
+    - [x] Model settings
+  - [ ] Trading routes
+  - [ ] Backtesting routes
 - [ ] Set up authentication with Supabase
-- [ ] Implement API routes for the web interface
 
 ## Implementation Progress
 - Created project structure with core components
@@ -67,10 +80,17 @@
   - Trading page with asset selection, order form, strategy selection, market data, and order status
   - Backtesting page with form, results visualization, and history
   - Settings page with user, API key, notification, and model settings
+- Implemented API routes for authentication and user management:
+  - Authentication routes (login, signup, logout)
+  - User profile and preferences
+  - API key management
+  - Notification settings
+  - LLM model settings
 
 ## Next Steps
+- Implement trading API routes
+- Implement backtesting API routes
 - Set up authentication with Supabase
-- Implement API routes for the web interface
 - Create deployment configuration for Vercel
 - Set up CI/CD pipeline
 - Implement comprehensive error handling

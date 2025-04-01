@@ -4,6 +4,7 @@
 - **2025-03-31**: Project initialization, Memory Bank setup, and initial architecture planning
 - **2025-03-31**: Core component implementation and project structure setup
 - **2025-03-31**: Web interface implementation
+- **2025-03-31**: API routes implementation
 
 ## Completed Milestones
 - [x] Project initialization
@@ -48,10 +49,23 @@
     - [x] ApiKeySettings
     - [x] NotificationSettings
     - [x] ModelSettings
+- [x] API routes implementation (partial)
+  - [x] Authentication routes
+    - [x] Login
+    - [x] Signup
+    - [x] Logout
+  - [x] User routes
+    - [x] Profile
+    - [x] Preferences
+    - [x] API keys
+    - [x] Notifications
+    - [x] Model settings
 
 ## In Progress
+- [ ] API routes implementation (remaining)
+  - [ ] Trading routes
+  - [ ] Backtesting routes
 - [ ] Authentication integration
-- [ ] API routes implementation
 - [ ] Deployment configuration
 
 ## Upcoming Milestones
@@ -76,4 +90,10 @@
   - Trading page for executing trades and strategies
   - Backtesting page for evaluating trading strategies
   - Settings page for configuring user preferences, API keys, notifications, and LLM models
-- Next steps will focus on implementing the API routes, authentication integration, and deployment configuration
+- API routes for authentication and user management have been implemented:
+  - Authentication routes for login, signup, and logout
+  - User profile and preferences management
+  - API key management with encryption
+  - Notification settings configuration
+  - LLM model settings configuration
+- Next steps will focus on implementing the trading and backtesting API routes, authentication integration, and deployment configuration
