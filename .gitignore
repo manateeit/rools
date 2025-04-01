@@ -1,38 +1,62 @@
-# Dependencies
-node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
-
 # Environment variables
 .env
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Build output
-dist/
-build/
-out/
-
-# IDE and editor files
-.idea/
-.vscode/
-*.swp
-*.swo
-.DS_Store
-
-# Logs
-logs/
-*.log
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
 
 # Testing
-coverage/
+/coverage
 
-# Optional npm cache directory
-.npm
+# Next.js
+/.next/
+/out/
+/build
 
-# Optional eslint cache
-.eslintcache
+# Production
+/dist
 
-# Optional REPL history
-.node_repl_history 
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local Netlify folder
+.netlify
+
+# Vercel
+.vercel
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+*.pem
+
+# Logs
+logs
+*.log
+
+# API keys and secrets
+.env*.local
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
